@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conflito FC</title>
+    <title>Conflito FC - Elite Football Club</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -25,6 +25,9 @@
             /* Efeitos */
             --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.5);
             --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            
+            /* NOVAS VARIÁVEIS PARA O HEADER */
+            --header-bg-color: #1a1f6d; /* Azul Escuro mais Sólido */
         }
 
         * {
@@ -70,6 +73,12 @@
                 transform: scale(4);
                 opacity: 0;
             }
+        }
+        
+        /* Animação para o sublinhado ativo (Novo) */
+        @keyframes drawLine {
+            from { width: 0; }
+            to { width: 100%; }
         }
 
         /* ==================================== */
@@ -141,17 +150,20 @@
         }
 
         /* ==================================== */
-        /* HEADER E NAVEGAÇÃO */
+        /* HEADER E NAVEGAÇÃO (ESTILOS MELHORADOS) */
         /* ==================================== */
         .header {
-            background: rgba(26, 35, 126, 0.95); /* Cor primária com transparência */
-            backdrop-filter: blur(8px);
+            /* Cor mais escura e menos transparente */
+            background: var(--header-bg-color); 
+            backdrop-filter: blur(5px); /* Reduzi o blur */
             position: fixed;
             top: 0;
             width: 100%;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            padding: 1rem 0;
+            /* Sombra mais sofisticada e suave */
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.6); 
+            padding: 0.7rem 0; /* Menos padding vertical para um header mais fino */
+            border-bottom: 3px solid var(--secondary); /* Linha de destaque */
         }
 
         .nav-container {
@@ -167,52 +179,92 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 2rem;
+            font-size: 1.8rem; /* Um pouco menor para equilibrar */
             font-weight: 900;
             color: white;
             text-decoration: none;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px; /* Maior espaçamento */
         }
 
         .logo-icon {
             color: var(--secondary);
+            font-size: 2.2rem; /* Ícone um pouco maior */
             animation: pulse 4s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55);
         }
 
         .nav-menu {
             display: flex;
-            gap: 0.5rem;
+            gap: 1.5rem; /* Mais espaço entre os links */
             list-style: none;
         }
 
         .nav-link {
             text-decoration: none;
             color: var(--text-light);
-            font-weight: 600;
-            padding: 0.7rem 1.2rem;
-            border-radius: 8px;
-            transition: var(--transition);
+            font-weight: 500; /* Um pouco mais fino */
+            padding: 0.5rem 0.5rem; /* Padding vertical e horizontal para a área de clique */
+            transition: color 0.3s ease, transform 0.2s ease;
             position: relative;
             overflow: hidden;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.6rem;
+            text-transform: uppercase; /* Deixa o menu mais formal */
+            letter-spacing: 0.5px;
         }
 
+        .nav-link i {
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        /* Efeito de Sublinhado Elegante ao Hover */
         .nav-link:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-link.active {
-            background: var(--secondary);
-            color: var(--dark-bg);
-            box-shadow: 0 4px 12px rgba(255, 109, 0, 0.4);
+            color: var(--secondary);
             transform: translateY(-2px);
         }
 
+        .nav-link:hover i {
+            color: var(--secondary);
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: -5px; /* Abaixo do texto */
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--secondary);
+            transition: width 0.3s ease-out;
+            border-radius: 1px;
+        }
+
+        .nav-link:hover:after {
+            width: 100%; /* Estende ao passar o mouse */
+        }
+
+        /* Estilo para o link ATIVO (Selecionado) */
+        .nav-link.active {
+            color: var(--accent); /* Cor principal do texto para ACENTUAR */
+            font-weight: 700;
+            transform: none; /* Não levanta para não competir com o hover */
+        }
+        
+        /* Sublinhado com destaque para o ativo */
+        .nav-link.active:after {
+            width: 100%;
+            background: var(--accent);
+            animation: drawLine 0.5s ease; /* Animação suave ao carregar/mudar */
+        }
+
         .nav-link.active:hover {
-            background: #ff9100;
+            color: var(--accent); /* Mantém a cor */
+        }
+
+        .nav-link.active i {
+            color: var(--accent);
         }
 
         .mobile-menu-btn {
@@ -230,7 +282,7 @@
         }
 
         /* ==================================== */
-        /* SEÇÃO CLUBE (HERO & STATS) */
+        /* SEÇÃO CLUBE (HERO & STATS) - MANTIDA */
         /* ==================================== */
         .hero {
             text-align: center;
@@ -257,40 +309,32 @@
             color: var(--text-light);
         }
 
-        .stats-grid {
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        /* Botão Social Link Padrão (Novo) */
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            background: var(--secondary);
+            transition: var(--transition);
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
 
-        .stat-card {
-            text-align: center;
-            padding: 2.5rem 1.5rem;
-            background: var(--dark-card);
-            border-left: 5px solid var(--secondary);
-        }
-
-        .stat-number {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 0.2rem;
-            color: var(--secondary);
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-        }
-
-        .stat-label {
-            font-size: 1.1rem;
-            opacity: 0.8;
-            color: var(--text-gray);
-        }
-
-        .about-club-card {
-            background: var(--dark-card);
-            color: var(--text-gray);
-            padding: 3rem;
-            margin-top: 3rem;
+        .social-link:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
         }
 
         /* ==================================== */
-        /* NOVO CSS PARA ELENCO AGRUPADO */
+        /* NOVO CSS PARA ELENCO AGRUPADO - MANTIDO */
         /* ==================================== */
         .position-group-title {
             font-size: 2rem;
@@ -306,7 +350,6 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* Mantém o grid original para os jogadores dentro de cada grupo */
         .players-group-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -315,7 +358,6 @@
             margin-bottom: 2rem;
         }
 
-        /* SEÇÃO ELENCO (PLAYER CARDS) */
         .player-card {
             background: var(--dark-card);
         }
@@ -328,18 +370,30 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
+            border-top-left-radius: 15px; 
+            border-top-right-radius: 15px;
         }
         
-        .player-header .fa-user-circle {
-            font-size: 5rem;
-            color: white;
-            z-index: 1;
-            opacity: 0.8;
+        .player-header img {
+            width: 120px; 
+            height: 120px;
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 4px solid white; 
+            box-shadow: 0 0 0 5px var(--secondary), 0 5px 15px rgba(0, 0, 0, 0.5); 
+            position: absolute; 
+            bottom: -60px; 
+            transition: transform 0.3s ease;
+        }
+
+        .player-card:hover .player-header img {
+            transform: translateY(-10px) scale(1.05);
         }
 
         .player-info {
             padding: 1.5rem;
             text-align: center;
+            padding-top: 70px;
         }
 
         .player-name {
@@ -376,62 +430,81 @@
         }
 
         /* ==================================== */
-        /* SEÇÃO ESCALAÇÕES (FORMATION) */
+        /* NOVO CSS PARA A SEÇÃO TÁTICAS (ESCALAÇÕES) */
         /* ==================================== */
-        .formations-grid {
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+
+        /* Container Principal de 3 Colunas para Táticas */
+        .tactic-workbench {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr; /* Colunas: Formações | Campo | Instruções */
+            gap: 2rem;
+            margin-top: 2rem;
+            align-items: start;
         }
 
-        .formation-card {
-            padding: 2rem;
+        /* Coluna de Formações e Coluna de Instruções */
+        .tactic-sidebar {
+            background: var(--dark-card);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-light);
+            height: fit-content; /* Se ajusta ao conteúdo */
         }
 
-        .formation-title {
-            text-align: center;
-            margin-bottom: 1.5rem;
+        .tactic-sidebar h3 {
             color: var(--secondary);
-            font-size: 1.8rem;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Cartões de Formação na Sidebar */
+        .formation-selector {
+            padding: 1rem 0;
+        }
+
+        .formation-item {
+            background: var(--primary);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .formation-item:hover {
+            background: #283593; /* Um pouco mais claro */
+            transform: scale(1.02);
+        }
+
+        .formation-item.active {
+            border-color: var(--secondary);
+            box-shadow: 0 0 10px var(--secondary);
+        }
+
+        .formation-name {
             font-weight: 700;
         }
 
+        /* CAMPO DE JOGO APRIMORADO */
         .formation-pitch {
             background: #2e7d32; /* Verde Escuro */
-            background-image: linear-gradient(rgba(0,0,0,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.2) 1px, transparent 1px);
-            background-size: 40px 40px;
-            height: 400px; /* Maior para melhor visualização */
+            background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            height: 600px; 
             border-radius: 10px;
             position: relative;
-            margin-bottom: 1.5rem;
+            margin-bottom: 0;
             border: 5px solid white;
             box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+            cursor: grab; /* Indica que é arrastável/interativo */
         }
-
-        .player-marker {
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            border-radius: 50%;
-            position: absolute;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.1rem;
-            border: 4px solid var(--secondary);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-            transition: var(--transition);
-            cursor: help; /* Indica interatividade */
-            z-index: 10;
-        }
-
-        .player-marker:hover {
-            background: var(--accent);
-            border-color: white;
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        /* Linhas do Campo */
+        /* Linhas do Campo (MANTIDAS) */
         .formation-pitch:before {
             content: '';
             position: absolute;
@@ -453,77 +526,158 @@
             border: 2px solid white; /* Círculo de centro */
         }
 
+        /* NOVO ESTILO PARA O MARCADOR DE JOGADOR (COM IMAGEM) */
+        .player-marker {
+            width: 60px; /* Maior para caber a imagem */
+            height: 60px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem; /* Fonte menor */
+            border: 4px solid var(--secondary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+            cursor: pointer; /* Indica interatividade de clique/arraste */
+            z-index: 10;
+            overflow: hidden; /* Importante para a imagem */
+        }
 
-        /* ==================================== */
-        /* SEÇÃO REDES SOCIAIS */
-        /* ==================================== */
+        .player-marker.active-player {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 8px rgba(0, 176, 255, 0.5); /* Efeito de seleção */
+            transform: scale(1.1);
+        }
+
+        .player-marker:hover {
+            transform: scale(1.05);
+        }
+
+        .player-marker img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            pointer-events: none; /* Ignora eventos de clique na imagem interna */
+        }
+
+        /* Estilo para a sigla do jogador (para GOL/Sem foto) */
+        .player-marker span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+
+        /* PAINEL DE INSTRUÇÕES INDIVIDUAIS (COLUNA 3) */
+        #instruction-panel {
+            min-height: 400px;
+            position: relative;
+        }
+
+        #instruction-content {
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        .player-instruction-header {
+            text-align: center;
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .player-instruction-header img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--secondary);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 0.5rem;
+        }
+
+        .instruction-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .instruction-section h4 {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .instruction-setting {
+            background: #151532;
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .instruction-value {
+            font-weight: 700;
+            color: var(--secondary);
+        }
+
+        /* Seção Redes Sociais */
         .social-grid {
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         }
 
         .social-card {
+            padding: 2rem;
             text-align: center;
-            padding: 2.5rem 2rem;
-            background: linear-gradient(135deg, #1e1e3f, var(--primary));
-            border-bottom: 5px solid var(--secondary);
         }
 
         .social-icon {
-            font-size: 4rem;
+            font-size: 3rem;
             margin-bottom: 1rem;
-            color: var(--accent);
-            transition: var(--transition);
-        }
-
-        .social-card:hover .social-icon {
             color: var(--secondary);
-            transform: scale(1.1);
         }
 
         .social-title {
-            font-size: 1.6rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .social-link {
-            display: inline-block;
-            padding: 0.8rem 1.8rem;
-            background: var(--secondary);
-            color: var(--dark-bg);
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 700;
-            transition: var(--transition);
-            margin-top: 1.5rem;
-        }
-
-        .social-link:hover {
-            background: #ff9100;
-            box-shadow: 0 5px 15px rgba(255, 145, 0, 0.6);
-            transform: translateY(-3px);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         /* ==================================== */
-        /* FOOTER */
+        /* RODAPÉ (FOOTER) */
         /* ==================================== */
         .footer {
-            background: #121212;
-            padding: 2rem;
-            text-align: center;
-            margin-top: 4rem;
-            border-top: 3px solid var(--secondary);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
+            background: #12122c;
             color: var(--text-gray);
-            font-size: 0.9rem;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
 
+        .footer-content p:first-child {
+            font-weight: 600;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        
         /* ==================================== */
         /* RESPONSIVIDADE (MOBILE) */
         /* ==================================== */
+        @media (max-width: 1024px) {
+            .tactic-workbench {
+                grid-template-columns: 1fr; /* Em telas menores, as colunas viram linhas */
+            }
+        }
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
@@ -531,9 +685,9 @@
                 top: 100%;
                 left: 0;
                 width: 100%;
-                background: var(--primary);
+                background: var(--header-bg-color);
                 flex-direction: column;
-                padding: 1rem 0;
+                padding: 0; /* Removendo padding para os links preencherem */
                 box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
                 transition: height 0.3s ease-out;
             }
@@ -547,6 +701,16 @@
                 padding: 1rem 2rem;
                 border-radius: 0;
                 text-align: left;
+                /* Resetando estilos do desktop para mobile */
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .nav-link:after {
+                display: none; /* Remove o sublinhado animado no mobile */
+            }
+
+            .nav-link.active {
+                background: rgba(0, 176, 255, 0.1); /* Um leve fundo para o ativo */
             }
 
             .mobile-menu-btn {
@@ -554,7 +718,7 @@
             }
 
             .main-content {
-                margin-top: 100px;
+                margin-top: 90px;
                 padding: 1rem;
             }
 
@@ -563,7 +727,7 @@
             }
 
             .formation-pitch {
-                height: 300px;
+                height: 400px; /* Reduzido no mobile */
             }
         }
     </style>
@@ -603,48 +767,42 @@
         </section>
 
         <section id="escalacoes" class="section">
-            <h2 class="section-title">Formações Táticas Chave</h2>
-            <div class="grid formations-grid">
-                <div class="card formation-card">
-                    <h3 class="formation-title">4-3-3 Ofensivo</h3>
-                    <div class="formation-pitch" title="Formação: 4-3-3 Ofensivo">
-                        <div class="player-marker" style="top: 90%; left: 50%;">GOL</div>
-                        <div class="player-marker" style="top: 70%; left: 10%;">LD</div>
-                        <div class="player-marker" style="top: 75%; left: 40%;">ZGE</div>
-                        <div class="player-marker" style="top: 75%; left: 60%;">ZGD</div>
-                        <div class="player-marker" style="top: 70%; left: 90%;">LE</div>
-                        <div class="player-marker" style="top: 50%; left: 50%;">VOL</div>
-                        <div class="player-marker" style="top: 35%; left: 30%;">MCE</div>
-                        <div class="player-marker" style="top: 35%; left: 70%;">MCD</div>
-                        <div class="player-marker" style="top: 15%; left: 15%;">PE</div>
-                        <div class="player-marker" style="top: 10%; left: 50%;">ATA</div>
-                        <div class="player-marker" style="top: 15%; left: 85%;">PD</div>
+            <h2 class="section-title">Central de Táticas 🧠</h2>
+            
+            <div class="tactic-workbench">
+                
+                <div class="card tactic-sidebar">
+                    <h3>Formações Salvas</h3>
+                    <div class="formation-selector" id="formation-selector">
+                        </div>
+
+                    <div class="instruction-section">
+                        <h4><i class="fas fa-bullhorn"></i> Tática Global</h4>
+                        <div class="instruction-setting">
+                            Mentalidade: <span class="instruction-value">Ofensiva</span>
+                        </div>
+                        <div class="instruction-setting">
+                            Estilo de Pressão: <span class="instruction-value">Alta</span>
+                        </div>
                     </div>
-                    <p style="text-align: center; color: var(--text-gray);">
-                        Formação que busca o controle total do jogo, com laterais ofensivos e um trio de ataque agressivo. 
-                        Ideal para pressão alta e posse de bola no terço final.
+                </div>
+
+                <div class="card formation-card" style="padding: 1.5rem;">
+                    <h3 class="formation-title" id="current-formation-title">4-3-3 Ofensivo</h3>
+                    <div class="formation-pitch" id="formation-pitch">
+                        </div>
+                    <p style="text-align: center; color: var(--text-gray); font-style: italic; margin-top: 1rem;">
+                        Clique ou arraste um jogador para ver/mudar suas instruções individuais.
                     </p>
                 </div>
 
-                <div class="card formation-card">
-                    <h3 class="formation-title">3-5-2 Contenção</h3>
-                    <div class="formation-pitch" title="Formação: 3-5-2 Contenção">
-                        <div class="player-marker" style="top: 90%; left: 50%;">GOL</div>
-                        <div class="player-marker" style="top: 75%; left: 25%;">ZGE</div>
-                        <div class="player-marker" style="top: 80%; left: 50%;">ZGC</div>
-                        <div class="player-marker" style="top: 75%; left: 75%;">ZGD</div>
-                        <div class="player-marker" style="top: 55%; left: 10%;">ALE</div>
-                        <div class="player-marker" style="top: 55%; left: 90%;">ALD</div>
-                        <div class="player-marker" style="top: 50%; left: 50%;">VMC</div>
-                        <div class="player-marker" style="top: 35%; left: 30%;">MCE</div>
-                        <div class="player-marker" style="top: 35%; left: 70%;">MCD</div>
-                        <div class="player-marker" style="top: 15%; left: 35%;">ATA1</div>
-                        <div class="player-marker" style="top: 15%; left: 65%;">ATA2</div>
+                <div class="card tactic-sidebar" id="instruction-panel">
+                    <h3 id="instruction-title">Instruções Individuais</h3>
+                    <div id="instruction-content">
+                        <p style="text-align: center; color: var(--text-gray); padding: 1rem;">
+                            Selecione um jogador no campo para personalizar suas táticas.
+                        </p>
                     </div>
-                    <p style="text-align: center; color: var(--text-gray);">
-                        Tática para jogos mais difíceis, priorizando a solidez defensiva com três zagueiros e 
-                        cinco meio-campistas no centro do campo. Contra-ataques rápidos são a chave.
-                    </p>
                 </div>
             </div>
         </section>
@@ -685,8 +843,8 @@
 
     <footer class="footer">
         <div class="footer-content">
-            <p>© 2025 Conflito FC</p>
-            <p>Desenvolvido por <b>dev.barbosa02@gmail.com</b></p>
+            <p>© 2023 Elite Football Club - Todos os direitos reservados</p>
+            <p>Criado por fãs de Pro Clubs para fãs de Pro Clubs.</p>
         </div>
     </footer>
 
@@ -697,53 +855,104 @@
             const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
             const navMenu = document.querySelector('.nav-menu');
             const playersContainer = document.getElementById('players-container');
+            const formationPitch = document.getElementById('formation-pitch');
+            const formationSelector = document.getElementById('formation-selector');
+            const currentFormationTitle = document.getElementById('current-formation-title');
+            const instructionContent = document.getElementById('instruction-content');
 
-            // 1. Dados dos jogadores (SIMULAÇÃO) - Posição Curta e Posição Completa
+            // 1. Dados dos jogadores (SIMULAÇÃO) - AGORA COM imageUrl
             const playersData = [
-                { name: "Marcos Oliveira", positionShort: "GOL", position: "Goleiro", ovr: 90, stats: { "Clean Sheets": 12, "Defesas/Jogo": 4.5, Rating: 8.5 } },
-                { name: "João Pedro", positionShort: "GOL", position: "Goleiro", ovr: 85, stats: { "Clean Sheets": 5, "Defesas/Jogo": 3.1, Rating: 7.9 } },
+                // IDs 1 a 12 são importantes para a lógica das táticas
+                { id: 1, name: "Marcos Oliveira", positionShort: "GOL", position: "Goleiro", ovr: 90, stats: { "Clean Sheets": 12, "Defesas/Jogo": 4.5, Rating: 8.5 }, imageUrl: "https://via.placeholder.com/150/0000FF/FFFFFF?text=GOL" },
+                { id: 2, name: "João Pedro", positionShort: "GOL", position: "Goleiro", ovr: 85, stats: { "Clean Sheets": 5, "Defesas/Jogo": 3.1, Rating: 7.9 }, imageUrl: "https://via.placeholder.com/150/0000FF/FFFFFF?text=GOL2" },
                 
-                { name: "Carlos Silva", positionShort: "ZAG", position: "Zagueiro Central", ovr: 87, stats: { Desarmes: 150, Intercept: 80, Rating: 8.0 } },
-                { name: "André Luiz", positionShort: "ZAG", position: "Zagueiro Central", ovr: 89, stats: { Desarmes: 135, Intercept: 95, Rating: 8.3 } },
-                { name: "Lucas Ferreira", positionShort: "LAT", position: "Lateral Esquerdo", ovr: 88, stats: { Assist: 10, Cruzamentos: 75, Rating: 8.2 } },
-                { name: "Ramon Dias", positionShort: "LAT", position: "Lateral Direito", ovr: 86, stats: { Assist: 7, Desarmes: 90, Rating: 7.8 } },
+                { id: 3, name: "Carlos Silva", positionShort: "ZAG", position: "Zagueiro Central", ovr: 87, stats: { Desarmes: 150, Intercept: 80, Rating: 8.0 }, imageUrl: "https://via.placeholder.com/150/FF0000/FFFFFF?text=ZAG" },
+                { id: 4, name: "André Luiz", positionShort: "ZAG", position: "Zagueiro Central", ovr: 89, stats: { Desarmes: 135, Intercept: 95, Rating: 8.3 }, imageUrl: "https://via.placeholder.com/150/FF0000/FFFFFF?text=ZAG2" },
+                { id: 5, name: "Lucas Ferreira", positionShort: "LAT", position: "Lateral Esquerdo", ovr: 88, stats: { Assist: 10, Cruzamentos: 75, Rating: 8.2 }, imageUrl: "https://via.placeholder.com/150/00FF00/FFFFFF?text=LE" },
+                { id: 6, name: "Ramon Dias", positionShort: "LAT", position: "Lateral Direito", ovr: 86, stats: { Assist: 7, Desarmes: 90, Rating: 7.8 }, imageUrl: "https://via.placeholder.com/150/00FF00/FFFFFF?text=LD" },
 
-                { name: "Diego Costa", positionShort: "VOL", position: "Volante (MDC)", ovr: 89, stats: { Gols: 12, Assist: 28, "Passes/Jogo": 50 } },
-                { name: "Felipe Melo", positionShort: "MEC", position: "Meio-Campo Central", ovr: 85, stats: { Passes: 400, "Precisão Passe": 92, Rating: 8.1 } },
-                { name: "Pedro Mendes", positionShort: "MEI", position: "Meia Atacante", ovr: 91, stats: { Gols: 20, "Chances Criadas": 60, Rating: 8.9 } },
+                { id: 7, name: "Diego Costa", positionShort: "VOL", position: "Volante (MDC)", ovr: 89, stats: { Gols: 12, Assist: 28, "Passes/Jogo": 50 }, imageUrl: "https://via.placeholder.com/150/FFFF00/000000?text=VOL" },
+                { id: 8, name: "Felipe Melo", positionShort: "MEC", position: "Meio-Campo Central", ovr: 85, stats: { Passes: 400, "Precisão Passe": 92, Rating: 8.1 }, imageUrl: "https://via.placeholder.com/150/FFFF00/000000?text=MEC" },
+                { id: 9, name: "Pedro Mendes", positionShort: "MEI", position: "Meia Atacante", ovr: 91, stats: { Gols: 20, "Chances Criadas": 60, Rating: 8.9 }, imageUrl: "https://via.placeholder.com/150/FFFF00/000000?text=MEI" },
 
-                { name: "Rafael Souza", positionShort: "ATA", position: "Atacante Central", ovr: 92, stats: { Gols: 32, Assist: 18, Rating: 8.7 } },
-                { name: "Thiago Rocha", positionShort: "PE", position: "Ponta Esquerda", ovr: 90, stats: { Gols: 15, Dribles: 120, Rating: 8.6 } },
-                { name: "Guilherme S.", positionShort: "PD", position: "Ponta Direita", ovr: 87, stats: { Gols: 10, Finalizacoes: 85, Rating: 8.4 } },
+                { id: 10, name: "Rafael Souza", positionShort: "ATA", position: "Atacante Central", ovr: 92, stats: { Gols: 32, Assist: 18, Rating: 8.7 }, imageUrl: "https://via.placeholder.com/150/FF6D00/FFFFFF?text=ATA" },
+                { id: 11, name: "Thiago Rocha", positionShort: "PE", position: "Ponta Esquerda", ovr: 90, stats: { Gols: 15, Dribles: 120, Rating: 8.6 }, imageUrl: "https://via.placeholder.com/150/FF6D00/FFFFFF?text=PE" },
+                { id: 12, name: "Guilherme S.", positionShort: "PD", position: "Ponta Direita", ovr: 87, stats: { Gols: 10, Finalizacoes: 85, Rating: 8.4 }, imageUrl: "https://via.placeholder.com/150/FF6D00/FFFFFF?text=PD" },
+            ];
+
+            // 2. Dados das Formações (Táticas)
+            let currentFormationId = "433-ofensive";
+            const formations = [
+                {
+                    name: "4-3-3 Ofensivo",
+                    id: "433-ofensive",
+                    players: [
+                        { id: 1, name: "Marcos Oliveira", top: "90%", left: "50%", pos: "GOL", instructions: { "Função": "Goleiro Líbero", "Cruzamentos": "Fica" } },
+                        { id: 5, name: "Lucas Ferreira", top: "75%", left: "10%", pos: "LE", instructions: { "Ataque": "Subir", "Apoio": "Sobreposição" } },
+                        { id: 3, name: "Carlos Silva", top: "80%", left: "40%", pos: "ZGE", instructions: { "Ataque": "Fica", "Marcação": "Normal" } },
+                        { id: 4, name: "André Luiz", top: "80%", left: "60%", pos: "ZGD", instructions: { "Ataque": "Fica", "Marcação": "Normal" } },
+                        { id: 6, name: "Ramon Dias", top: "75%", left: "90%", pos: "LD", instructions: { "Ataque": "Subir", "Apoio": "Sobreposição" } },
+                        { id: 7, name: "Diego Costa", top: "50%", left: "50%", pos: "VOL", instructions: { "Ataque": "Fica na Defesa", "Cobertura": "Centro" } },
+                        { id: 8, name: "Felipe Melo", top: "35%", left: "30%", pos: "MCE", instructions: { "Ataque": "Apoio", "Posicionamento": "Livre" } },
+                        { id: 9, name: "Pedro Mendes", top: "35%", left: "70%", pos: "MCD", instructions: { "Ataque": "Apoio", "Posicionamento": "Livre" } },
+                        { id: 11, name: "Thiago Rocha", top: "15%", left: "15%", pos: "PE", instructions: { "Ataque": "Corta para o meio", "Defesa": "Volta para marcar" } },
+                        { id: 10, name: "Rafael Souza", top: "10%", left: "50%", pos: "ATA", instructions: { "Movimentação": "Falso 9", "Defesa": "Fica" } },
+                        { id: 12, name: "Guilherme S.", top: "15%", left: "85%", pos: "PD", instructions: { "Ataque": "Abre o jogo", "Defesa": "Volta para marcar" } },
+                    ]
+                },
+                {
+                    name: "3-5-2 Clássico",
+                    id: "352-classic",
+                    players: [
+                        { id: 1, name: "Marcos Oliveira", top: "90%", left: "50%", pos: "GOL", instructions: { "Função": "Goleiro Padrão", "Cruzamentos": "Sai" } },
+                        { id: 3, name: "Carlos Silva", top: "80%", left: "20%", pos: "ZGE", instructions: { "Ataque": "Fica", "Marcação": "Marca Zagueiro" } },
+                        { id: 4, name: "André Luiz", top: "85%", left: "50%", pos: "ZGC", instructions: { "Ataque": "Fica", "Marcação": "Marca Zagueiro" } },
+                        { id: 6, name: "Ramon Dias", top: "80%", left: "80%", pos: "ZGD", instructions: { "Ataque": "Fica", "Marcação": "Marca Zagueiro" } },
+                        { id: 7, name: "Diego Costa", top: "60%", left: "15%", pos: "MEE", instructions: { "Ataque": "Subir", "Cruzamento": "Passar por fora" } },
+                        { id: 8, name: "Felipe Melo", top: "60%", left: "85%", pos: "MED", instructions: { "Ataque": "Subir", "Cruzamento": "Passar por fora" } },
+                        { id: 9, name: "Pedro Mendes", top: "40%", left: "50%", pos: "MEI", instructions: { "Ataque": "Apoio", "Posicionamento": "Livre" } },
+                        { id: 5, name: "Lucas Ferreira", top: "50%", left: "35%", pos: "MCE", instructions: { "Ataque": "Fica na Defesa", "Cobertura": "Lado" } },
+                        { id: 12, name: "Guilherme S.", top: "50%", left: "65%", pos: "MCD", instructions: { "Ataque": "Fica na Defesa", "Cobertura": "Lado" } },
+                        { id: 10, name: "Rafael Souza", top: "15%", left: "35%", pos: "ATA1", instructions: { "Movimentação": "Alas", "Defesa": "Pressão" } },
+                        { id: 11, name: "Thiago Rocha", top: "15%", left: "65%", pos: "ATA2", instructions: { "Movimentação": "Fica no centro", "Defesa": "Fica" } },
+                    ]
+                }
             ];
             
-            // 2. Função para agrupar os jogadores
+            // Variável para armazenar o jogador atualmente selecionado
+            let activePlayerId = null; 
+
+
+            // ====================================
+            // Lógica do Elenco (Renderização dos Cards)
+            // ====================================
+
+            function getPlayerDetails(playerId) {
+                return playersData.find(p => p.id === playerId);
+            }
+
             function groupPlayersByPosition(players) {
                 const groups = {};
-                // Ordem desejada das posições (para renderização)
                 const positionOrder = ["GOL", "ZAG", "LAT", "VOL", "MEC", "MEI", "ATA", "PE", "PD"];
 
                 players.forEach(player => {
                     const groupKey = player.positionShort;
                     if (!groups[groupKey]) {
-                        // Inicializa o grupo com a chave (posição curta) e um array de jogadores
                         groups[groupKey] = [];
                     }
                     groups[groupKey].push(player);
                 });
 
-                // Cria um array de grupos na ordem definida
                 const orderedGroups = positionOrder
-                    .filter(key => groups[key]) // Filtra apenas as posições que têm jogadores
+                    .filter(key => groups[key])
                     .map(key => ({
-                        position: key, // Chave do grupo
-                        players: groups[key] // Array de jogadores
+                        position: key,
+                        players: groups[key]
                     }));
 
                 return orderedGroups;
             }
 
-            // 3. Função para criar o HTML do Card do Jogador
             function createPlayerCard(player) {
                 const statsHtml = Object.entries(player.stats).map(([label, value]) => `
                     <div class="stat">
@@ -755,7 +964,7 @@
                 return `
                     <div class="card player-card">
                         <div class="player-header">
-                            <i class="fas fa-user-circle"></i>
+                            <img src="${player.imageUrl}" alt="Foto de ${player.name}">
                         </div>
                         <div class="player-info">
                             <h3 class="player-name">${player.name}</h3>
@@ -768,137 +977,210 @@
                 `;
             }
 
-            // 4. Função para renderizar o Elenco Agrupado
             function renderGroupedPlayers() {
                 const groupedPlayers = groupPlayersByPosition(playersData);
                 let htmlContent = '';
-
-                // Mapeamento de Posição Curta para Nome de Seção
                 const positionNames = {
-                    "GOL": "Goleiros 🧤",
-                    "ZAG": "Zagueiros 🛡️",
-                    "LAT": "Laterais 🏃",
-                    "VOL": "Volantes (MDC) 💪",
-                    "MEC": "Meio-Campistas Centrais 🧠",
-                    "MEI": "Meias Atacantes 🎯",
-                    "ATA": "Atacantes Centrais ⚡",
-                    "PE": "Pontas Esquerda 🚀",
-                    "PD": "Pontas Direita 🚀",
+                    "GOL": "Goleiros 🧤", "ZAG": "Zagueiros 🛡️", "LAT": "Laterais 🏃",
+                    "VOL": "Volantes (MDC) 💪", "MEC": "Meio-Campistas Centrais 🧠", "MEI": "Meias Atacantes 🎯",
+                    "ATA": "Atacantes Centrais ⚡", "PE": "Pontas Esquerda 🚀", "PD": "Pontas Direita 🚀",
                 };
 
                 groupedPlayers.forEach(group => {
-                    // Título do Grupo de Posição
                     const groupTitle = positionNames[group.position] || group.position;
                     htmlContent += `<h3 class="position-group-title">${groupTitle}</h3>`;
-
-                    // Container Grid para os jogadores do grupo
                     htmlContent += `<div class="players-group-grid">`;
-                    
-                    // Cards dos Jogadores
                     group.players.forEach(player => {
                         htmlContent += createPlayerCard(player);
                     });
-
-                    htmlContent += `</div>`; // Fecha players-group-grid
+                    htmlContent += `</div>`;
                 });
-
-                // Insere o HTML no container
                 playersContainer.innerHTML = htmlContent;
             }
 
-            // Chama a função de renderização no início
-            renderGroupedPlayers();
 
+            // ====================================
+            // Lógica do Menu de Navegação (Troca de Seção)
+            // ====================================
 
-            // ************************************************
-            // RESTANTE DO CÓDIGO JS DE NAVEGAÇÃO E RECURSOS
-            // ************************************************
+            function setActiveSection(sectionId) {
+                // Remove 'active' de todas as seções e links
+                sections.forEach(sec => sec.classList.remove('active'));
+                navLinks.forEach(link => link.classList.remove('active'));
 
-            // Função para alternar a visibilidade das seções
-            function showSection(sectionId) {
-                sections.forEach(section => {
-                    section.classList.remove('active');
-                });
-                
-                setTimeout(() => {
-                    const targetSection = document.getElementById(sectionId);
-                    if (targetSection) {
-                        targetSection.classList.add('active');
-                    }
-                }, 50);
+                // Adiciona 'active' na seção correta
+                const targetSection = document.getElementById(sectionId);
+                if (targetSection) {
+                    targetSection.classList.add('active');
+                }
 
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.dataset.section === sectionId) {
-                        link.classList.add('active');
-                    }
-                });
-
-                if (window.innerWidth <= 768) {
-                    navMenu.classList.remove('active');
+                // Adiciona 'active' no link correto
+                const targetLink = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
+                if (targetLink) {
+                    targetLink.classList.add('active');
                 }
             }
 
-            // Event listeners para os links de navegação
             navLinks.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
+                    const sectionId = this.getAttribute('data-section');
+                    setActiveSection(sectionId);
                     
-                    const sectionId = this.dataset.section;
-                    showSection(sectionId);
-                    
-                    history.pushState(null, null, `#${sectionId}`);
-                    
-                    // Efeito de Ripple
-                    const ripple = document.createElement('span');
-                    const rect = this.getBoundingClientRect();
-                    const size = Math.max(rect.width, rect.height) * 1.5;
-
-                    ripple.classList.add('ripple');
-                    ripple.style.width = ripple.style.height = `${size}px`;
-                    ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
-                    ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
-                    
-                    this.appendChild(ripple);
-                    
-                    setTimeout(() => {
-                        ripple.remove();
-                    }, 600);
+                    // Fechar menu mobile após clique
+                    if (navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        document.querySelector('.mobile-menu-btn i').classList.remove('fa-times');
+                        document.querySelector('.mobile-menu-btn i').classList.add('fa-bars');
+                    }
                 });
             });
 
-            // Lógica do menu mobile
-            mobileMenuBtn.addEventListener('click', () => {
+            // Lógica do botão de menu mobile
+            mobileMenuBtn.addEventListener('click', function() {
                 navMenu.classList.toggle('active');
-                mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
-                mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
+                const icon = this.querySelector('i');
+                if (navMenu.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
             });
-            
-            // ************************************************
-            // NOVO CÓDIGO PARA ATIVAR O BOTÃO "VER ELENCO COMPLETO"
-            // ************************************************
-            const viewSquadButton = document.querySelector('.hero .social-link');
 
-            if (viewSquadButton) {
-                viewSquadButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    // Pega o ID da seção do atributo href (ex: 'elenco' de '#elenco')
-                    const sectionId = this.getAttribute('href').substring(1); 
+
+            // ====================================
+            // Lógica da Seção Táticas (Formações e Jogadores)
+            // ====================================
+
+            // NOVO: Função para renderizar o painel de instruções
+            function renderInstructions(playerDataInFormation, formation) {
+                // Busca os dados completos do jogador pelos dados iniciais
+                const details = getPlayerDetails(playerDataInFormation.id);
+                
+                if (!details) {
+                    instructionContent.innerHTML = `<p style="text-align: center; color: var(--text-gray); padding: 1rem;">Jogador não encontrado.</p>`;
+                    return;
+                }
+
+                // Header do Painel
+                let html = `
+                    <div class="player-instruction-header">
+                        <img src="${details.imageUrl}" alt="Foto de ${details.name}">
+                        <h4 style="color: var(--text-light); margin: 0;">${details.name}</h4>
+                        <p style="color: var(--secondary); font-weight: 600;">
+                            ${playerDataInFormation.pos} - ${details.position} (OVR ${details.ovr})
+                        </p>
+                    </div>
                     
-                    // Chama a função de navegação principal
-                    showSection(sectionId);
+                    <div class="instruction-section">
+                        <h4><i class="fas fa-running"></i> Instruções de Movimento e Posição</h4>
+                `;
+                
+                // Adiciona as instruções específicas da formação
+                Object.entries(playerDataInFormation.instructions).forEach(([key, value]) => {
+                    html += `
+                        <div class="instruction-setting">
+                            ${key}: <span class="instruction-value">${value}</span>
+                        </div>
+                    `;
+                });
+                
+                // Adiciona um exemplo de instrução padrão/global que não muda (Exemplo mantido)
+                html += `
+                        <div class="instruction-setting">
+                            Marcar Jogador: <span class="instruction-value">Sim</span>
+                        </div>
+                    </div>
+                `;
+
+                instructionContent.innerHTML = html;
+            }
+
+            function renderFormation(formation) {
+                formationPitch.innerHTML = '';
+                currentFormationTitle.textContent = formation.name;
+                
+                formation.players.forEach(player => {
+                    const details = getPlayerDetails(player.id);
+                    const marker = document.createElement('div');
+                    marker.className = 'player-marker';
+                    marker.dataset.playerId = player.id;
+                    marker.style.top = player.top;
+                    marker.style.left = player.left;
                     
-                    // Atualiza a URL (opcional, mas bom para histórico)
-                    history.pushState(null, null, `#${sectionId}`);
+                    // Adiciona a imagem se houver, ou a sigla da posição
+                    if (details && details.imageUrl && details.positionShort !== 'GOL') {
+                        marker.innerHTML = `<img src="${details.imageUrl}" alt="${details.name}">`;
+                    } else {
+                        marker.innerHTML = `<span>${player.pos}</span>`;
+                    }
                     
-                    // Rola para o topo da seção (opcional, mas recomendado)
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
+                    // Centraliza o marcador (ajuste para as coordenadas top/left)
+                    marker.style.transform = 'translate(-50%, -50%)'; 
+                    
+                    marker.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        // Remove a classe ativa de todos
+                        document.querySelectorAll('.player-marker').forEach(m => m.classList.remove('active-player'));
+                        
+                        // Adiciona a classe ativa no clicado
+                        this.classList.add('active-player');
+                        activePlayerId = player.id;
+                        
+                        // Renderiza o painel de instruções chamando a função corrigida
+                        renderInstructions(player, formation);
+                    });
+
+                    formationPitch.appendChild(marker);
+                });
+                
+                // Limpa o painel de instruções ao carregar nova formação
+                instructionContent.innerHTML = `<p style="text-align: center; color: var(--text-gray); padding: 1rem;">Selecione um jogador no campo para personalizar suas táticas.</p>`;
+                activePlayerId = null;
+            }
+            
+            function renderFormationSelector() {
+                formationSelector.innerHTML = formations.map(f => `
+                    <div class="formation-item ${f.id === currentFormationId ? 'active' : ''}" data-formation-id="${f.id}">
+                        <span class="formation-name">${f.name}</span>
+                        <span style="font-size: 0.9rem; color: var(--text-gray);">${f.id.split('-')[0]}</span>
+                    </div>
+                `).join('');
+                
+                document.querySelectorAll('.formation-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        const newId = this.dataset.formationId;
+                        if (newId !== currentFormationId) {
+                            currentFormationId = newId;
+                            
+                            document.querySelectorAll('.formation-item').forEach(i => i.classList.remove('active'));
+                            this.classList.add('active');
+                            
+                            const selectedFormation = formations.find(f => f.id === currentFormationId);
+                            if (selectedFormation) {
+                                renderFormation(selectedFormation);
+                            }
+                        }
                     });
                 });
             }
-            // ************************************************
+
+            // ====================================
+            // Inicialização
+            // ====================================
+            
+            // Renderiza a seção Elenco
+            renderGroupedPlayers();
+
+            // Renderiza a seção Táticas
+            renderFormationSelector();
+            const initialFormation = formations.find(f => f.id === currentFormationId);
+            if (initialFormation) {
+                renderFormation(initialFormation);
+            }
+            
         });
     </script>
 </body>
