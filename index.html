@@ -867,14 +867,38 @@
                 });
             });
 
-            // Menu mobile toggle
-            mobileMenuBtn.addEventListener('click', function() {
+            // Lógica do menu mobile
+            mobileMenuBtn.addEventListener('click', () => {
                 navMenu.classList.toggle('active');
+                mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
+                mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
             });
+            
+            // ************************************************
+            // NOVO CÓDIGO PARA ATIVAR O BOTÃO "VER ELENCO COMPLETO"
+            // ************************************************
+            const viewSquadButton = document.querySelector('.hero .social-link');
 
-            // Trata o hash da URL (quando a página é carregada com #secao)
-            const initialSection = window.location.hash.substring(1) || 'clube';
-            showSection(initialSection);
+            if (viewSquadButton) {
+                viewSquadButton.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Pega o ID da seção do atributo href (ex: 'elenco' de '#elenco')
+                    const sectionId = this.getAttribute('href').substring(1); 
+                    
+                    // Chama a função de navegação principal
+                    showSection(sectionId);
+                    
+                    // Atualiza a URL (opcional, mas bom para histórico)
+                    history.pushState(null, null, `#${sectionId}`);
+                    
+                    // Rola para o topo da seção (opcional, mas recomendado)
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+            // ************************************************
         });
     </script>
 </body>
