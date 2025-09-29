@@ -334,7 +334,7 @@
         }
 
         /* ==================================== */
-        /* NOVO CSS PARA ELENCO AGRUPADO - MANTIDO */
+        /* NOVO CSS PARA ELENCO AGRUPADO - REVISADO PARA CARD FLIP */
         /* ==================================== */
         .position-group-title {
             font-size: 2rem;
@@ -348,6 +348,7 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 0.5s ease-out; /* Animação para o título */
         }
 
         .players-group-grid {
@@ -358,79 +359,184 @@
             margin-bottom: 2rem;
         }
 
+        /* Container do Card Flip */
+        .player-card-container {
+            perspective: 1000px; /* Para o efeito 3D de virar */
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
         .player-card {
+            position: relative;
+            width: 100%;
+            height: 400px; /* Altura fixa para o flip */
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            background: none; /* O fundo será dado pelas faces */
+            border: none;
+            box-shadow: none;
+        }
+        
+        .player-card-container:hover .player-card {
+            transform: rotateY(180deg);
+        }
+
+        /* Faces do Card (Frente e Verso) */
+        .player-card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden; /* Oculta o verso */
             background: var(--dark-card);
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+            overflow: hidden;
+            border: 2px solid var(--primary); /* Borda sutil */
+        }
+
+        /* Estilo da Frente do Card (Informações Básicas) */
+        .player-card-front {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 2rem;
         }
 
         .player-header {
             background: linear-gradient(135deg, var(--primary), var(--accent));
-            height: 150px;
+            height: 60%; /* Mais alto para a imagem e OVR */
+            width: 100%;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             position: relative;
             overflow: hidden;
-            border-top-left-radius: 15px; 
-            border-top-right-radius: 15px;
         }
         
-        .player-header img {
-            width: 120px; 
-            height: 120px;
-            border-radius: 50%; 
-            object-fit: cover; 
-            border: 4px solid white; 
-            box-shadow: 0 0 0 5px var(--secondary), 0 5px 15px rgba(0, 0, 0, 0.5); 
-            position: absolute; 
-            bottom: -60px; 
-            transition: transform 0.3s ease;
+        .player-ovr {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--secondary);
+            color: white;
+            font-size: 2rem;
+            font-weight: 900;
+            padding: 5px 12px;
+            border-radius: 50%;
+            z-index: 2;
+            box-shadow: 0 0 15px rgba(255, 109, 0, 0.7);
+            border: 3px solid white;
+            animation: pulse 4s infinite;
         }
 
-        .player-card:hover .player-header img {
-            transform: translateY(-10px) scale(1.05);
+        .player-header img {
+            width: 140px; /* Maior imagem */
+            height: 140px;
+            border-radius: 50%; 
+            object-fit: cover; 
+            border: 5px solid white; 
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); 
+            position: absolute; 
+            bottom: -70px; /* Metade para fora */
+            transition: transform 0.3s ease;
+        }
+        
+        .player-card-container:hover .player-header img {
+            transform: translateY(0) scale(1.05); /* Pequeno zoom no hover do container */
         }
 
         .player-info {
-            padding: 1.5rem;
             text-align: center;
-            padding-top: 70px;
+            padding-top: 85px; /* Compensar o img */
         }
 
         .player-name {
-            font-size: 1.5rem;
-            margin-bottom: 0.3rem;
+            font-size: 1.6rem;
+            margin-bottom: 0.2rem;
             color: var(--text-light);
-            font-weight: 700;
+            font-weight: 800;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
 
         .player-position {
             color: var(--secondary);
-            margin-bottom: 1.5rem;
-            font-weight: 500;
+            margin-bottom: 0;
+            font-weight: 600;
             font-size: 1.1rem;
         }
 
-        .player-stats {
+        /* Estilo do Verso do Card (Estatísticas Detalhadas) */
+        .player-card-back {
+            transform: rotateY(180deg);
+            padding: 2rem;
             display: flex;
-            justify-content: space-around;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            flex-direction: column;
+            justify-content: space-between;
+            background: linear-gradient(160deg, var(--dark-card) 0%, #191c42 100%);
+        }
+
+        .back-title {
+            color: var(--accent);
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .player-stats-detail {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.7rem 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+            font-size: 1rem;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .stat-value {
             font-weight: 700;
-            color: var(--accent);
+            color: var(--secondary);
+            font-size: 1.1rem;
+        }
+
+        .stat-rating .stat-value {
+            color: var(--accent); /* Cor diferente para o rating */
             font-size: 1.3rem;
         }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-gray);
+        
+        /* Ícones para estatísticas (Melhora a visualização) */
+        .stat-item i {
+            width: 20px;
+            text-align: center;
+            color: var(--accent);
         }
-
+        
         /* ==================================== */
-        /* NOVO CSS PARA A SEÇÃO TÁTICAS (ESCALAÇÕES) */
+        /* NOVO CSS PARA A SEÇÃO TÁTICAS (ESCALAÇÕES) - MANTIDO */
         /* ==================================== */
 
         /* Container Principal de 3 Colunas para Táticas */
@@ -729,6 +835,11 @@
             .formation-pitch {
                 height: 400px; /* Reduzido no mobile */
             }
+            
+            /* Ajuste de altura para o flip no mobile */
+            .player-card {
+                height: 350px;
+            }
         }
     </style>
 </head>
@@ -887,300 +998,313 @@
                     name: "4-3-3 Ofensivo",
                     id: "433-ofensive",
                     players: [
-                        { id: 1, name: "Marcos Oliveira", top: "90%", left: "50%", pos: "GOL", instructions: { "Função": "Goleiro Líbero", "Cruzamentos": "Fica" } },
-                        { id: 5, name: "Lucas Ferreira", top: "75%", left: "10%", pos: "LE", instructions: { "Ataque": "Subir", "Apoio": "Sobreposição" } },
-                        { id: 3, name: "Carlos Silva", top: "80%", left: "40%", pos: "ZGE", instructions: { "Ataque": "Fica", "Marcação": "Normal" } },
-                        { id: 4, name: "André Luiz", top: "80%", left: "60%", pos: "ZGD", instructions: { "Ataque": "Fica", "Marcação": "Normal" } },
-                        { id: 6, name: "Ramon Dias", top: "75%", left: "90%", pos: "LD", instructions: { "Ataque": "Subir", "Apoio": "Sobreposição" } },
-                        { id: 7, name: "Diego Costa", top: "50%", left: "50%", pos: "VOL", instructions: { "Ataque": "Fica na Defesa", "Cobertura": "Centro" } },
-                        { id: 8, name: "Felipe Melo", top: "35%", left: "30%", pos: "MCE", instructions: { "Ataque": "Apoio", "Posicionamento": "Livre" } },
-                        { id: 9, name: "Pedro Mendes", top: "35%", left: "70%", pos: "MCD", instructions: { "Ataque": "Apoio", "Posicionamento": "Livre" } },
-                        { id: 11, name: "Thiago Rocha", top: "15%", left: "15%", pos: "PE", instructions: { "Ataque": "Corta para o meio", "Defesa": "Volta para marcar" } },
-                        { id: 10, name: "Rafael Souza", top: "10%", left: "50%", pos: "ATA", instructions: { "Movimentação": "Falso 9", "Defesa": "Fica" } },
-                        { id: 12, name: "Guilherme S.", top: "15%", left: "85%", pos: "PD", instructions: { "Ataque": "Abre o jogo", "Defesa": "Volta para marcar" } },
+                        { id: 1, top: "90%", left: "50%", pos: "GOL", instructions: { "Função": "Goleiro Líbero", "Cruzamentos": "Fica" } },
+                        { id: 5, top: "70%", left: "10%", pos: "LAT", instructions: { "Ataque": "Avançar", "Marcação": "Marcação Individual" } },
+                        { id: 3, top: "75%", left: "40%", pos: "ZAG", instructions: { "Defesa": "Fica na Defesa", "Cobertura": "Lado" } },
+                        { id: 4, top: "75%", left: "60%", pos: "ZAG", instructions: { "Defesa": "Fica na Defesa", "Cobertura": "Centro" } },
+                        { id: 6, top: "70%", left: "90%", pos: "LAT", instructions: { "Ataque": "Apoio Equilibrado", "Marcação": "Marcação Individual" } },
+                        { id: 7, top: "50%", left: "50%", pos: "VOL", instructions: { "Movimentação": "Cobrir Centro", "Apoio Ataque": "Fica na Defesa" } },
+                        { id: 8, top: "35%", left: "30%", pos: "MEC", instructions: { "Posição": "Chega na Área", "Liberdade": "Livre" } },
+                        { id: 9, top: "35%", left: "70%", pos: "MEI", instructions: { "Posição": "Chega na Área", "Criatividade": "Livre/Roaming" } },
+                        { id: 11, top: "15%", left: "15%", pos: "PE", instructions: { "Movimento": "Cair nos Flancos", "Ataque": "Entrar na Área" } },
+                        { id: 10, top: "10%", left: "50%", pos: "ATA", instructions: { "Movimento": "Ponta de Lança", "Apoio": "Ficar no Ataque" } },
+                        { id: 12, top: "15%", left: "85%", pos: "PD", instructions: { "Movimento": "Voltar para Defender", "Ataque": "Corta para o Meio" } },
                     ]
                 },
                 {
-                    name: "3-5-2 Clássico",
-                    id: "352-classic",
+                    name: "4-4-2 Clássico",
+                    id: "442-classic",
                     players: [
-                        { id: 1, name: "Marcos Oliveira", top: "90%", left: "50%", pos: "GOL", instructions: { "Função": "Goleiro Padrão", "Cruzamentos": "Sai" } },
-                        { id: 3, name: "Carlos Silva", top: "80%", left: "20%", pos: "ZGE", instructions: { "Ataque": "Fica", "Marcação": "Marca Zagueiro" } },
-                        { id: 4, name: "André Luiz", top: "85%", left: "50%", pos: "ZGC", instructions: { "Ataque": "Fica", "Marcação": "Marca Zagueiro" } },
-                        { id: 6, name: "Ramon Dias", top: "80%", left: "80%", pos: "ZGD", instructions: { "Ataque": "Fica", "Marcação": "Marca Zagueiro" } },
-                        { id: 7, name: "Diego Costa", top: "60%", left: "15%", pos: "MEE", instructions: { "Ataque": "Subir", "Cruzamento": "Passar por fora" } },
-                        { id: 8, name: "Felipe Melo", top: "60%", left: "85%", pos: "MED", instructions: { "Ataque": "Subir", "Cruzamento": "Passar por fora" } },
-                        { id: 9, name: "Pedro Mendes", top: "40%", left: "50%", pos: "MEI", instructions: { "Ataque": "Apoio", "Posicionamento": "Livre" } },
-                        { id: 5, name: "Lucas Ferreira", top: "50%", left: "35%", pos: "MCE", instructions: { "Ataque": "Fica na Defesa", "Cobertura": "Lado" } },
-                        { id: 12, name: "Guilherme S.", top: "50%", left: "65%", pos: "MCD", instructions: { "Ataque": "Fica na Defesa", "Cobertura": "Lado" } },
-                        { id: 10, name: "Rafael Souza", top: "15%", left: "35%", pos: "ATA1", instructions: { "Movimentação": "Alas", "Defesa": "Pressão" } },
-                        { id: 11, name: "Thiago Rocha", top: "15%", left: "65%", pos: "ATA2", instructions: { "Movimentação": "Fica no centro", "Defesa": "Fica" } },
+                        { id: 1, top: "90%", left: "50%", pos: "GOL", instructions: { "Função": "Goleiro Padrão", "Cruzamentos": "Fica" } },
+                        { id: 5, top: "75%", left: "5%", pos: "LAT", instructions: { "Ataque": "Fica na Defesa", "Marcação": "Marcação Individual" } },
+                        { id: 3, top: "80%", left: "40%", pos: "ZAG", instructions: { "Defesa": "Fica na Defesa", "Cobertura": "Lado" } },
+                        { id: 4, top: "80%", left: "60%", pos: "ZAG", instructions: { "Defesa": "Fica na Defesa", "Cobertura": "Centro" } },
+                        { id: 6, top: "75%", left: "95%", pos: "LAT", instructions: { "Ataque": "Apoio Equilibrado", "Marcação": "Marcação Individual" } },
+                        { id: 7, top: "55%", left: "30%", pos: "VOL", instructions: { "Movimentação": "Cobrir Centro", "Apoio Ataque": "Fica na Defesa" } },
+                        { id: 8, top: "55%", left: "70%", pos: "MEC", instructions: { "Posição": "Equilibrado", "Liberdade": "Equilibrado" } },
+                        { id: 11, top: "35%", left: "15%", pos: "PE", instructions: { "Movimento": "Cair nos Flancos", "Defesa": "Voltar para Defender" } },
+                        { id: 12, top: "35%", left: "85%", pos: "PD", instructions: { "Movimento": "Voltar para Defender", "Ataque": "Fica no Flanco" } },
+                        { id: 10, top: "10%", left: "40%", pos: "ATA", instructions: { "Movimento": "Ponta de Lança", "Apoio": "Ficar no Ataque" } },
+                        { id: 9, top: "10%", left: "60%", pos: "MEI", instructions: { "Movimento": "Falso 9", "Apoio": "Recuar para Armar" } },
                     ]
                 }
             ];
-            
-            // Variável para armazenar o jogador atualmente selecionado
-            let activePlayerId = null; 
 
 
-            // ====================================
-            // Lógica do Elenco (Renderização dos Cards)
-            // ====================================
-
-            function getPlayerDetails(playerId) {
-                return playersData.find(p => p.id === playerId);
-            }
-
-            function groupPlayersByPosition(players) {
-                const groups = {};
-                const positionOrder = ["GOL", "ZAG", "LAT", "VOL", "MEC", "MEI", "ATA", "PE", "PD"];
-
-                players.forEach(player => {
-                    const groupKey = player.positionShort;
-                    if (!groups[groupKey]) {
-                        groups[groupKey] = [];
+            // -----------------------------------------------------------
+            // FUNÇÕES DE RENDERIZAÇÃO DO ELENCO (MANTIDAS COM CARD FLIP)
+            // -----------------------------------------------------------
+            const renderPlayers = () => {
+                const groupedPlayers = playersData.reduce((acc, player) => {
+                    const group = player.position.includes('Goleiro') ? 'Goleiros' :
+                                  player.position.includes('Zagueiro') || player.position.includes('Lateral') ? 'Defensores' :
+                                  player.position.includes('Meio-Campo') || player.position.includes('Volante') || player.position.includes('Meia') ? 'Meio-Campistas' :
+                                  'Atacantes';
+                    if (!acc[group]) {
+                        acc[group] = [];
                     }
-                    groups[groupKey].push(player);
-                });
+                    acc[group].push(player);
+                    return acc;
+                }, {});
 
-                const orderedGroups = positionOrder
-                    .filter(key => groups[key])
-                    .map(key => ({
-                        position: key,
-                        players: groups[key]
-                    }));
+                playersContainer.innerHTML = ''; 
 
-                return orderedGroups;
-            }
+                for (const group in groupedPlayers) {
+                    const title = `<h3 class="position-group-title">${group} (${groupedPlayers[group].length})</h3>`;
+                    playersContainer.insertAdjacentHTML('beforeend', title);
 
-            function createPlayerCard(player) {
-                const statsHtml = Object.entries(player.stats).map(([label, value]) => `
-                    <div class="stat">
-                        <div class="stat-value">${value}</div>
-                        <div class="stat-label">${label}</div>
-                    </div>
-                `).join('');
+                    const grid = document.createElement('div');
+                    grid.className = 'players-group-grid';
+                    
+                    groupedPlayers[group].forEach(player => {
+                        grid.innerHTML += renderPlayerCard(player);
+                    });
 
+                    playersContainer.appendChild(grid);
+                }
+            };
+            
+            const renderPlayerCard = (player) => {
+                const statIcons = {
+                    "Gols": "fa-futbol",
+                    "Assist": "fa-handshake",
+                    "Dribles": "fa-bolt",
+                    "Finalizacoes": "fa-bullseye",
+                    "Desarmes": "fa-shield-alt",
+                    "Intercept": "fa-compress-alt",
+                    "Clean Sheets": "fa-door-closed",
+                    "Defesas/Jogo": "fa-fist-raised",
+                    "Passes": "fa-running",
+                    "Precisão Passe": "fa-check-circle",
+                    "Passes/Jogo": "fa-paper-plane",
+                    "Chances Criadas": "fa-lightbulb",
+                    "Rating": "fa-star"
+                };
+                
+                let statsHtml = '';
+                for (const stat in player.stats) {
+                    const iconClass = statIcons[stat] || "fa-info-circle";
+                    const isRating = stat === "Rating";
+                    const statClass = isRating ? 'stat-item stat-rating' : 'stat-item';
+                    const statValue = isRating ? player.stats[stat].toFixed(1) : player.stats[stat];
+                    
+                    statsHtml += `
+                        <li class="${statClass}">
+                            <span class="stat-label"><i class="fas ${iconClass}"></i> ${stat}</span> 
+                            <span class="stat-value">${statValue}${isRating ? '' : ''}</span>
+                        </li>
+                    `;
+                }
+                
                 return `
-                    <div class="card player-card">
-                        <div class="player-header">
-                            <img src="${player.imageUrl}" alt="Foto de ${player.name}">
-                        </div>
-                        <div class="player-info">
-                            <h3 class="player-name">${player.name}</h3>
-                            <p class="player-position">${player.position} - **${player.ovr} OVR**</p>
-                            <div class="player-stats">
-                                ${statsHtml}
+                    <div class="player-card-container">
+                        <div class="player-card">
+                            
+                            <div class="player-card-face player-card-front">
+                                <div class="player-header">
+                                    <span class="player-ovr">${player.ovr}</span>
+                                    <img src="${player.imageUrl}" alt="Foto de ${player.name}">
+                                </div>
+                                <div class="player-info">
+                                    <h4 class="player-name">${player.name}</h4>
+                                    <p class="player-position">${player.position} (${player.positionShort})</p>
+                                    <a href="#escalacoes" class="social-link" style="background: var(--accent); font-size: 0.9rem; margin-top: 1rem;">Ver no Campo <i class="fas fa-search-plus"></i></a>
+                                </div>
+                            </div>
+                            
+                            <div class="player-card-face player-card-back">
+                                <h4 class="back-title">Estatísticas de Carreira</h4>
+                                <ul class="player-stats-detail">
+                                    ${statsHtml}
+                                </ul>
+                                <p style="text-align: center; color: var(--text-gray); font-size: 0.8rem; margin-top: 1rem;">
+                                    *Passe o mouse para ver os detalhes
+                                </p>
                             </div>
                         </div>
                     </div>
                 `;
-            }
+            };
 
-            function renderGroupedPlayers() {
-                const groupedPlayers = groupPlayersByPosition(playersData);
-                let htmlContent = '';
-                const positionNames = {
-                    "GOL": "Goleiros 🧤", "ZAG": "Zagueiros 🛡️", "LAT": "Laterais 🏃",
-                    "VOL": "Volantes (MDC) 💪", "MEC": "Meio-Campistas Centrais 🧠", "MEI": "Meias Atacantes 🎯",
-                    "ATA": "Atacantes Centrais ⚡", "PE": "Pontas Esquerda 🚀", "PD": "Pontas Direita 🚀",
-                };
-
-                groupedPlayers.forEach(group => {
-                    const groupTitle = positionNames[group.position] || group.position;
-                    htmlContent += `<h3 class="position-group-title">${groupTitle}</h3>`;
-                    htmlContent += `<div class="players-group-grid">`;
-                    group.players.forEach(player => {
-                        htmlContent += createPlayerCard(player);
-                    });
-                    htmlContent += `</div>`;
-                });
-                playersContainer.innerHTML = htmlContent;
-            }
+            // Chamada inicial para renderizar os jogadores ao carregar
+            renderPlayers();
 
 
-            // ====================================
-            // Lógica do Menu de Navegação (Troca de Seção)
-            // ====================================
+            // -----------------------------------------------------------
+            // FUNÇÕES PARA O MENU TÁTICAS (CORRIGIDO PARA REPLICAR O ANTERIOR)
+            // -----------------------------------------------------------
+            
+            // Funções de utilidade
+            const getFormation = (id) => formations.find(f => f.id === id);
+            const getPlayerInfo = (id) => playersData.find(p => p.id === id); // Busca dados do jogador pelo ID
 
-            function setActiveSection(sectionId) {
-                // Remove 'active' de todas as seções e links
-                sections.forEach(sec => sec.classList.remove('active'));
-                navLinks.forEach(link => link.classList.remove('active'));
+            const renderFormationPitch = (formation) => {
+                formationPitch.innerHTML = '';
+                formation.players.forEach(p => {
+                    const playerInfo = getPlayerInfo(p.id);
+                    // Garante que o jogador existe para evitar erro
+                    if (!playerInfo) return; 
 
-                // Adiciona 'active' na seção correta
-                const targetSection = document.getElementById(sectionId);
-                if (targetSection) {
-                    targetSection.classList.add('active');
-                }
+                    const playerMarker = document.createElement('div');
+                    playerMarker.className = 'player-marker';
+                    playerMarker.style.top = p.top;
+                    playerMarker.style.left = p.left;
+                    playerMarker.setAttribute('data-player-id', p.id);
+                    // Usa o nome completo para o title/tooltip
+                    playerMarker.title = playerInfo.name; 
 
-                // Adiciona 'active' no link correto
-                const targetLink = document.querySelector(`.nav-link[data-section="${sectionId}"]`);
-                if (targetLink) {
-                    targetLink.classList.add('active');
-                }
-            }
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const sectionId = this.getAttribute('data-section');
-                    setActiveSection(sectionId);
-                    
-                    // Fechar menu mobile após clique
-                    if (navMenu.classList.contains('active')) {
-                        navMenu.classList.remove('active');
-                        document.querySelector('.mobile-menu-btn i').classList.remove('fa-times');
-                        document.querySelector('.mobile-menu-btn i').classList.add('fa-bars');
+                    // Usa a imagem se disponível, senão usa a sigla da posição
+                    if (playerInfo.imageUrl && !playerInfo.imageUrl.includes('text=')) {
+                         playerMarker.innerHTML = `<img src="${playerInfo.imageUrl}" alt="${playerInfo.name}" />`;
+                    } else {
+                        playerMarker.innerHTML = `<span>${playerInfo.positionShort}</span>`;
                     }
+
+
+                    playerMarker.addEventListener('click', () => renderIndividualInstructions(p.id));
+                    formationPitch.appendChild(playerMarker);
                 });
-            });
+                currentFormationTitle.textContent = formation.name;
+            };
 
-            // Lógica do botão de menu mobile
-            mobileMenuBtn.addEventListener('click', function() {
-                navMenu.classList.toggle('active');
-                const icon = this.querySelector('i');
-                if (navMenu.classList.contains('active')) {
-                    icon.classList.remove('fa-bars');
-                    icon.classList.add('fa-times');
-                } else {
-                    icon.classList.remove('fa-times');
-                    icon.classList.add('fa-bars');
-                }
-            });
-
-
-            // ====================================
-            // Lógica da Seção Táticas (Formações e Jogadores)
-            // ====================================
-
-            // NOVO: Função para renderizar o painel de instruções
-            function renderInstructions(playerDataInFormation, formation) {
-                // Busca os dados completos do jogador pelos dados iniciais
-                const details = getPlayerDetails(playerDataInFormation.id);
+            const renderIndividualInstructions = (playerId) => {
+                // Encontra a configuração do jogador na formação ATUAL
+                const currentFormation = getFormation(currentFormationId);
+                const selectedPlayer = currentFormation.players.find(p => p.id === playerId);
+                const playerInfo = getPlayerInfo(playerId);
                 
-                if (!details) {
-                    instructionContent.innerHTML = `<p style="text-align: center; color: var(--text-gray); padding: 1rem;">Jogador não encontrado.</p>`;
+                // Remove a classe ativa de todos e adiciona ao selecionado
+                document.querySelectorAll('.player-marker').forEach(marker => marker.classList.remove('active-player'));
+                document.querySelector(`.player-marker[data-player-id="${playerId}"]`).classList.add('active-player');
+
+                if (!selectedPlayer || !playerInfo) {
+                    instructionContent.innerHTML = `<p style="text-align: center; color: var(--text-gray); padding: 1rem;">Instruções para o jogador não definidas.</p>`;
                     return;
                 }
 
-                // Header do Painel
-                let html = `
+                let instructionsHtml = `
                     <div class="player-instruction-header">
-                        <img src="${details.imageUrl}" alt="Foto de ${details.name}">
-                        <h4 style="color: var(--text-light); margin: 0;">${details.name}</h4>
-                        <p style="color: var(--secondary); font-weight: 600;">
-                            ${playerDataInFormation.pos} - ${details.position} (OVR ${details.ovr})
-                        </p>
+                        <img src="${playerInfo.imageUrl || 'https://via.placeholder.com/100/AAAAAA/FFFFFF?text=CF'}" alt="Foto de ${playerInfo.name}">
+                        <h4 style="margin: 0; color: var(--text-light);">${playerInfo.name}</h4>
+                        <p style="color: var(--secondary); font-size: 0.9rem;">${playerInfo.position}</p>
                     </div>
-                    
-                    <div class="instruction-section">
-                        <h4><i class="fas fa-running"></i> Instruções de Movimento e Posição</h4>
                 `;
+
+                // Agrupando instruções (como no código anterior)
+                const attackInstructions = ['Ataque', 'Apoio Ataque', 'Posição', 'Movimento', 'Criatividade'];
+                const defenseInstructions = ['Defesa', 'Marcação', 'Cobertura', 'Função', 'Cruzamentos', 'Apoio', 'Liberdade', 'Defesa'];
                 
-                // Adiciona as instruções específicas da formação
-                Object.entries(playerDataInFormation.instructions).forEach(([key, value]) => {
-                    html += `
-                        <div class="instruction-setting">
-                            ${key}: <span class="instruction-value">${value}</span>
-                        </div>
+                const renderInstructionsSection = (title, instructions, icon) => {
+                    let sectionHtml = `
+                        <div class="instruction-section">
+                            <h4><i class="fas ${icon}"></i> ${title}</h4>
                     `;
-                });
-                
-                // Adiciona um exemplo de instrução padrão/global que não muda (Exemplo mantido)
-                html += `
-                        <div class="instruction-setting">
-                            Marcar Jogador: <span class="instruction-value">Sim</span>
-                        </div>
-                    </div>
-                `;
-
-                instructionContent.innerHTML = html;
-            }
-
-            function renderFormation(formation) {
-                formationPitch.innerHTML = '';
-                currentFormationTitle.textContent = formation.name;
-                
-                formation.players.forEach(player => {
-                    const details = getPlayerDetails(player.id);
-                    const marker = document.createElement('div');
-                    marker.className = 'player-marker';
-                    marker.dataset.playerId = player.id;
-                    marker.style.top = player.top;
-                    marker.style.left = player.left;
-                    
-                    // Adiciona a imagem se houver, ou a sigla da posição
-                    if (details && details.imageUrl && details.positionShort !== 'GOL') {
-                        marker.innerHTML = `<img src="${details.imageUrl}" alt="${details.name}">`;
-                    } else {
-                        marker.innerHTML = `<span>${player.pos}</span>`;
+                    let hasInstructions = false;
+                    for (const key in selectedPlayer.instructions) {
+                        const value = selectedPlayer.instructions[key];
+                        if (
+                            (title === 'Instruções de Ataque' && attackInstructions.includes(key)) || 
+                            (title === 'Instruções de Defesa' && defenseInstructions.includes(key))
+                        ) {
+                            sectionHtml += `
+                                <div class="instruction-setting">
+                                    ${key}: <span class="instruction-value">${value}</span>
+                                </div>
+                            `;
+                            hasInstructions = true;
+                        }
                     }
+                    sectionHtml += `</div>`;
+                    return hasInstructions ? sectionHtml : '';
+                };
+
+                instructionsHtml += renderInstructionsSection("Instruções de Ataque", selectedPlayer.instructions, "fa-swords");
+                instructionsHtml += renderInstructionsSection("Instruções de Defesa", selectedPlayer.instructions, "fa-shield-alt");
+
+                instructionContent.innerHTML = instructionsHtml;
+            };
+
+            const renderFormationSelector = () => {
+                formationSelector.innerHTML = '';
+                formations.forEach(f => {
+                    const item = document.createElement('div');
+                    item.className = `formation-item ${f.id === currentFormationId ? 'active' : ''}`;
+                    item.setAttribute('data-formation-id', f.id);
+                    item.innerHTML = `<span class="formation-name">${f.name}</span> <i class="fas fa-users"></i>`;
                     
-                    // Centraliza o marcador (ajuste para as coordenadas top/left)
-                    marker.style.transform = 'translate(-50%, -50%)'; 
+                    item.addEventListener('click', function() {
+                        document.querySelectorAll('.formation-item').forEach(i => i.classList.remove('active'));
+                        this.classList.add('active');
+                        currentFormationId = f.id;
+                        renderFormationPitch(f);
+                        instructionContent.innerHTML = `<p style="text-align: center; color: var(--text-gray); padding: 1rem;">Selecione um jogador no campo para personalizar suas táticas.</p>`;
+                    });
                     
-                    marker.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        // Remove a classe ativa de todos
-                        document.querySelectorAll('.player-marker').forEach(m => m.classList.remove('active-player'));
-                        
-                        // Adiciona a classe ativa no clicado
-                        this.classList.add('active-player');
-                        activePlayerId = player.id;
-                        
-                        // Renderiza o painel de instruções chamando a função corrigida
-                        renderInstructions(player, formation);
+                    formationSelector.appendChild(item);
+                });
+            };
+
+            // Inicialização das táticas
+            renderFormationSelector();
+            // Renderiza o campo com a formação inicial
+            renderFormationPitch(getFormation(currentFormationId));
+            
+            // Lógica de navegação entre seções (MANTIDA)
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Ripple Effect (Opcional, mas divertido)
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height);
+                    const x = e.clientX - rect.left - size / 2;
+                    const y = e.clientY - rect.top - size / 2;
+
+                    const ripple = document.createElement('span');
+                    ripple.className = 'ripple';
+                    ripple.style.width = ripple.style.height = size + 'px';
+                    ripple.style.top = y + 'px';
+                    ripple.style.left = x + 'px';
+                    this.appendChild(ripple);
+
+                    ripple.addEventListener('animationend', () => {
+                        ripple.remove();
                     });
 
-                    formationPitch.appendChild(marker);
-                });
-                
-                // Limpa o painel de instruções ao carregar nova formação
-                instructionContent.innerHTML = `<p style="text-align: center; color: var(--text-gray); padding: 1rem;">Selecione um jogador no campo para personalizar suas táticas.</p>`;
-                activePlayerId = null;
-            }
-            
-            function renderFormationSelector() {
-                formationSelector.innerHTML = formations.map(f => `
-                    <div class="formation-item ${f.id === currentFormationId ? 'active' : ''}" data-formation-id="${f.id}">
-                        <span class="formation-name">${f.name}</span>
-                        <span style="font-size: 0.9rem; color: var(--text-gray);">${f.id.split('-')[0]}</span>
-                    </div>
-                `).join('');
-                
-                document.querySelectorAll('.formation-item').forEach(item => {
-                    item.addEventListener('click', function() {
-                        const newId = this.dataset.formationId;
-                        if (newId !== currentFormationId) {
-                            currentFormationId = newId;
-                            
-                            document.querySelectorAll('.formation-item').forEach(i => i.classList.remove('active'));
-                            this.classList.add('active');
-                            
-                            const selectedFormation = formations.find(f => f.id === currentFormationId);
-                            if (selectedFormation) {
-                                renderFormation(selectedFormation);
-                            }
+                    // Fecha o menu mobile se estiver aberto
+                    if (navMenu.classList.contains('active')) {
+                        navMenu.classList.remove('active');
+                        mobileMenuBtn.querySelector('i').className = 'fas fa-bars';
+                    }
+
+                    const targetId = this.getAttribute('data-section');
+
+                    // Atualiza o estado ativo dos links
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Mostra a seção correta
+                    sections.forEach(section => {
+                        section.classList.remove('active');
+                        if (section.id === targetId) {
+                            section.classList.add('active');
                         }
                     });
+                    
+                    // Rola suavemente para a seção
+                    document.getElementById(targetId).scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
-            }
+            });
 
-            // ====================================
-            // Inicialização
-            // ====================================
-            
-            // Renderiza a seção Elenco
-            renderGroupedPlayers();
-
-            // Renderiza a seção Táticas
-            renderFormationSelector();
-            const initialFormation = formations.find(f => f.id === currentFormationId);
-            if (initialFormation) {
-                renderFormation(initialFormation);
-            }
-            
+            // Lógica do menu mobile (MANTIDA)
+            mobileMenuBtn.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                if (navMenu.classList.contains('active')) {
+                    mobileMenuBtn.querySelector('i').className = 'fas fa-times'; // Ícone X
+                } else {
+                    mobileMenuBtn.querySelector('i').className = 'fas fa-bars'; // Ícone Menu
+                }
+            });
         });
     </script>
 </body>
