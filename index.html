@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite FC - Pro Clubs | Site Oficial</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ==================================== */
+        /* VARIÁVEIS E RESET CSS */
+        /* ==================================== */
+        :root {
+            /* Cores do Clube */
+            --primary: #1d278d; /* Azul Escuro Elite */
+            --secondary: #ff6d00; /* Laranja de Destaque */
+            --accent: #00b0ff; /* Azul Claro/Ciano */
+            
+            /* Cores do Layout (Dark Mode Suave) */
+            --dark-bg: #1e1e3f; /* Fundo Principal */
+            --dark-card: #282a55; /* Fundo dos Cards */
+            --text-light: #f5f5f5;
+            --text-gray: #b0bec5;
+            
+            /* Efeitos */
+            --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.5);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ==================================== */
+        /* ANIMAÇÕES */
+        /* ==================================== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 109, 0, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 109, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 109, 0, 0); }
+        }
+
+        /* Efeito Ripple (Onda de Clique) */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            transform: scale(0);
+            animation: ripple-effect 0.6s linear;
+            background-color: rgba(255, 255, 255, 0.5);
+            pointer-events: none;
+        }
+        @keyframes ripple-effect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* ==================================== */
+        /* LAYOUT BASE */
+        /* ==================================== */
+        .main-content {
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 2rem;
+        }
+        
+        /* Título da Seção Padrão (Usado em várias seções) */
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: var(--text-light);
+            position: relative;
+            padding-bottom: 0.5rem;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        /* Controle de Seções Ativas/Inativas */
+        .section {
+            display: none;
+            animation: fadeIn 0.8s ease forwards;
+            opacity: 0;
+        }
+
+        .section.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Grid Padrão */
+        .grid {
+            display: grid;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* Card Padrão */
+        .card {
+            background: var(--dark-card);
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            color: var(--text-light);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ==================================== */
+        /* HEADER E NAVEGAÇÃO */
+        /* ==================================== */
+        .header {
+            background: rgba(26, 35, 126, 0.95); /* Cor primária com transparência */
+            backdrop-filter: blur(8px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 2rem;
+            font-weight: 900;
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .logo-icon {
+            color: var(--secondary);
+            animation: pulse 4s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-light);
+            font-weight: 600;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active {
+            background: var(--secondary);
+            color: var(--dark-bg);
+            box-shadow: 0 4px 12px rgba(255, 109, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active:hover {
+            background: #ff9100;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu-btn:active {
+            transform: scale(0.9);
+        }
+
+        /* ==================================== */
+        /* SEÇÃO CLUBE (HERO & STATS) */
+        /* ==================================== */
+        .hero {
+            text-align: center;
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #3f51b5 100%);
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-light);
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
+            color: white;
+            font-weight: 900;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: var(--text-light);
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            background: var(--dark-card);
+            border-left: 5px solid var(--secondary);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 0.2rem;
+            color: var(--secondary);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            color: var(--text-gray);
+        }
+
+        .about-club-card {
+            background: var(--dark-card);
+            color: var(--text-gray);
+            padding: 3rem;
+            margin-top: 3rem;
+        }
+
+        /* ==================================== */
+        /* NOVO CSS PARA ELENCO AGRUPADO */
+        /* ==================================== */
+        .position-group-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-align: left;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            padding-left: 0.5rem;
+            border-left: 5px solid var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Mantém o grid original para os jogadores dentro de cada grupo */
+        .players-group-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* SEÇÃO ELENCO (PLAYER CARDS) */
+        .player-card {
+            background: var(--dark-card);
+        }
+
+        .player-header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .player-header .fa-user-circle {
+            font-size: 5rem;
+            color: white;
+            z-index: 1;
+            opacity: 0.8;
+        }
+
+        .player-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .player-name {
+            font-size: 1.5rem;
+            margin-bottom: 0.3rem;
+            color: var(--text-light);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .player-position {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .player-stats {
+            display: flex;
+            justify-content: space-around;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-value {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 1.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        /* ==================================== */
+        /* SEÇÃO ESCALAÇÕES (FORMATION) */
+        /* ==================================== */
+        .formations-grid {
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        }
+
+        .formation-card {
+            padding: 2rem;
+        }
+
+        .formation-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .formation-pitch {
+            background: #2e7d32; /* Verde Escuro */
+            background-image: linear-gradient(rgba(0,0,0,0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.2) 1px, transparent 1px);
+            background-size: 40px 40px;
+            height: 400px; /* Maior para melhor visualização */
+            border-radius: 10px;
+            position: relative;
+            margin-bottom: 1.5rem;
+            border: 5px solid white;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .player-marker {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            position: absolute;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border: 4px solid var(--secondary);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            transition: var(--transition);
+            cursor: help; /* Indica interatividade */
+            z-index: 10;
+        }
+
+        .player-marker:hover {
+            background: var(--accent);
+            border-color: white;
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        /* Linhas do Campo */
+        .formation-pitch:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: white; /* Linha de centro */
+        }
+        .formation-pitch:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid white; /* Círculo de centro */
+        }
+
+
+        /* ==================================== */
+        /* SEÇÃO REDES SOCIAIS */
+        /* ==================================== */
+        .social-grid {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .social-card {
+            text-align: center;
+            padding: 2.5rem 2rem;
+            background: linear-gradient(135deg, #1e1e3f, var(--primary));
+            border-bottom: 5px solid var(--secondary);
+        }
+
+        .social-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            transition: var(--transition);
+        }
+
+        .social-card:hover .social-icon {
+            color: var(--secondary);
+            transform: scale(1.1);
+        }
+
+        .social-title {
+            font-size: 1.6rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .social-link {
+            display: inline-block;
+            padding: 0.8rem 1.8rem;
+            background: var(--secondary);
+            color: var(--dark-bg);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: var(--transition);
+            margin-top: 1.5rem;
+        }
+
+        .social-link:hover {
+            background: #ff9100;
+            box-shadow: 0 5px 15px rgba(255, 145, 0, 0.6);
+            transform: translateY(-3px);
+        }
+
+        /* ==================================== */
+        /* FOOTER */
+        /* ==================================== */
+        .footer {
+            background: #121212;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 3px solid var(--secondary);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+
+        /* ==================================== */
+        /* RESPONSIVIDADE (MOBILE) */
+        /* ==================================== */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--primary);
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+                transition: height 0.3s ease-out;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-link {
+                width: 100%;
+                padding: 1rem 2rem;
+                border-radius: 0;
+                text-align: left;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .main-content {
+                margin-top: 100px;
+                padding: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .formation-pitch {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#" class="logo">
+                <i class="fas fa-futbol logo-icon"></i>
+                Elite FC
+            </a>
+            <button class="mobile-menu-btn" aria-label="Abrir Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-menu">
+                <li><a href="#clube" class="nav-link active" data-section="clube"><i class="fas fa-home"></i> Clube</a></li>
+                <li><a href="#elenco" class="nav-link" data-section="elenco"><i class="fas fa-users"></i> Elenco</a></li>
+                <li><a href="#escalacoes" class="nav-link" data-section="escalacoes"><i class="fas fa-chart-line"></i> Táticas</a></li>
+                <li><a href="#redes-sociais" class="nav-link" data-section="redes-sociais"><i class="fas fa-share-alt"></i> Redes</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section id="clube" class="section active">
+            <div class="hero">
+                <h1>Elite Football Club</h1>
+                <p>Dominando os campos virtuais com estilo, estratégia e trabalho em equipe.</p>
+                <a href="#elenco" class="social-link" style="background: var(--accent);">Ver Elenco Completo <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <h2 class="section-title">Estatísticas do Clube</h2>
+            <div class="grid stats-grid">
+                <div class="card stat-card">
+                    <div class="stat-number">32</div>
+                    <div class="stat-label">Vitórias</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-number">105</div>
+                    <div class="stat-label">Gols Marcados</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Derrotas</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-number">41</div>
+                    <div class="stat-label">Gols Sofridos</div>
+                </div>
+            </div>
+
+            <div class="card about-club-card">
+                <h2 class="section-title" style="color: var(--text-light);">Nossa História</h2>
+                <p style="text-align: center; line-height: 1.8; color: var(--text-gray);">
+                    Fundado em 2023, o **Elite FC** rapidamente se tornou uma força dominante no cenário de Pro Clubs. 
+                    Com um estilo de jogo ofensivo e uma defesa sólida, temos conquistado vitórias importantes 
+                    e construído uma reputação de equipe técnica e disciplinada. Nossa filosofia valoriza o trabalho 
+                    em equipe, respeito entre jogadores e constante evolução técnica. Junte-se a nós nesta jornada de glória!
+                </p>
+            </div>
+        </section>
+
+        <section id="elenco" class="section">
+            <h2 class="section-title">Elenco Principal 🏆</h2>
+            <div id="players-container">
+                </div>
+        </section>
+
+        <section id="escalacoes" class="section">
+            <h2 class="section-title">Formações Táticas Chave</h2>
+            <div class="grid formations-grid">
+                <div class="card formation-card">
+                    <h3 class="formation-title">4-3-3 Ofensivo</h3>
+                    <div class="formation-pitch" title="Formação: 4-3-3 Ofensivo">
+                        <div class="player-marker" style="top: 90%; left: 50%;">GOL</div>
+                        <div class="player-marker" style="top: 70%; left: 10%;">LD</div>
+                        <div class="player-marker" style="top: 75%; left: 40%;">ZGE</div>
+                        <div class="player-marker" style="top: 75%; left: 60%;">ZGD</div>
+                        <div class="player-marker" style="top: 70%; left: 90%;">LE</div>
+                        <div class="player-marker" style="top: 50%; left: 50%;">VOL</div>
+                        <div class="player-marker" style="top: 35%; left: 30%;">MCE</div>
+                        <div class="player-marker" style="top: 35%; left: 70%;">MCD</div>
+                        <div class="player-marker" style="top: 15%; left: 15%;">PE</div>
+                        <div class="player-marker" style="top: 10%; left: 50%;">ATA</div>
+                        <div class="player-marker" style="top: 15%; left: 85%;">PD</div>
+                    </div>
+                    <p style="text-align: center; color: var(--text-gray);">
+                        Formação que busca o controle total do jogo, com laterais ofensivos e um trio de ataque agressivo. 
+                        Ideal para pressão alta e posse de bola no terço final.
+                    </p>
+                </div>
+
+                <div class="card formation-card">
+                    <h3 class="formation-title">3-5-2 Contenção</h3>
+                    <div class="formation-pitch" title="Formação: 3-5-2 Contenção">
+                        <div class="player-marker" style="top: 90%; left: 50%;">GOL</div>
+                        <div class="player-marker" style="top: 75%; left: 25%;">ZGE</div>
+                        <div class="player-marker" style="top: 80%; left: 50%;">ZGC</div>
+                        <div class="player-marker" style="top: 75%; left: 75%;">ZGD</div>
+                        <div class="player-marker" style="top: 55%; left: 10%;">ALE</div>
+                        <div class="player-marker" style="top: 55%; left: 90%;">ALD</div>
+                        <div class="player-marker" style="top: 50%; left: 50%;">VMC</div>
+                        <div class="player-marker" style="top: 35%; left: 30%;">MCE</div>
+                        <div class="player-marker" style="top: 35%; left: 70%;">MCD</div>
+                        <div class="player-marker" style="top: 15%; left: 35%;">ATA1</div>
+                        <div class="player-marker" style="top: 15%; left: 65%;">ATA2</div>
+                    </div>
+                    <p style="text-align: center; color: var(--text-gray);">
+                        Tática para jogos mais difíceis, priorizando a solidez defensiva com três zagueiros e 
+                        cinco meio-campistas no centro do campo. Contra-ataques rápidos são a chave.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="redes-sociais" class="section">
+            <h2 class="section-title">Conecte-se Conosco</h2>
+            <div class="grid social-grid">
+                <div class="card social-card">
+                    <i class="fab fa-discord social-icon"></i>
+                    <h3 class="social-title">Discord</h3>
+                    <p style="color: var(--text-gray);">Comunidade ativa para conversas, estratégias e organização de partidas.</p>
+                    <a href="#" class="social-link">Entrar no Servidor</a>
+                </div>
+
+                <div class="card social-card">
+                    <i class="fab fa-twitch social-icon" style="color: #6441a5;"></i>
+                    <h3 class="social-title">Twitch</h3>
+                    <p style="color: var(--text-gray);">Transmissões ao vivo dos jogos, torneios e interações com o elenco.</p>
+                    <a href="#" class="social-link" style="background: #6441a5;">Assistir Agora</a>
+                </div>
+                
+                <div class="card social-card">
+                    <i class="fab fa-instagram social-icon" style="color: #E1306C;"></i>
+                    <h3 class="social-title">Instagram</h3>
+                    <p style="color: var(--text-gray);">Fotos, vídeos dos jogos e conteúdo exclusivo do bastidor.</p>
+                    <a href="#" class="social-link" style="background: #E1306C;">Seguir no Insta</a>
+                </div>
+
+                <div class="card social-card">
+                    <i class="fab fa-youtube social-icon" style="color: #FF0000;"></i>
+                    <h3 class="social-title">YouTube</h3>
+                    <p style="color: var(--text-gray);">Melhores momentos, tutorials e análises pós-jogo.</p>
+                    <a href="#" class="social-link" style="background: #FF0000;">Inscrever-se</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>© 2023 Elite Football Club - Todos os direitos reservados</p>
+            <p>Criado por fãs de Pro Clubs para fãs de Pro Clubs.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navMenu = document.querySelector('.nav-menu');
+            const playersContainer = document.getElementById('players-container');
+
+            // 1. Dados dos jogadores (SIMULAÇÃO) - Posição Curta e Posição Completa
+            const playersData = [
+                { name: "Marcos Oliveira", positionShort: "GOL", position: "Goleiro", ovr: 90, stats: { "Clean Sheets": 12, "Defesas/Jogo": 4.5, Rating: 8.5 } },
+                { name: "João Pedro", positionShort: "GOL", position: "Goleiro", ovr: 85, stats: { "Clean Sheets": 5, "Defesas/Jogo": 3.1, Rating: 7.9 } },
+                
+                { name: "Carlos Silva", positionShort: "ZAG", position: "Zagueiro Central", ovr: 87, stats: { Desarmes: 150, Intercept: 80, Rating: 8.0 } },
+                { name: "André Luiz", positionShort: "ZAG", position: "Zagueiro Central", ovr: 89, stats: { Desarmes: 135, Intercept: 95, Rating: 8.3 } },
+                { name: "Lucas Ferreira", positionShort: "LAT", position: "Lateral Esquerdo", ovr: 88, stats: { Assist: 10, Cruzamentos: 75, Rating: 8.2 } },
+                { name: "Ramon Dias", positionShort: "LAT", position: "Lateral Direito", ovr: 86, stats: { Assist: 7, Desarmes: 90, Rating: 7.8 } },
+
+                { name: "Diego Costa", positionShort: "VOL", position: "Volante (MDC)", ovr: 89, stats: { Gols: 12, Assist: 28, "Passes/Jogo": 50 } },
+                { name: "Felipe Melo", positionShort: "MEC", position: "Meio-Campo Central", ovr: 85, stats: { Passes: 400, "Precisão Passe": 92, Rating: 8.1 } },
+                { name: "Pedro Mendes", positionShort: "MEI", position: "Meia Atacante", ovr: 91, stats: { Gols: 20, "Chances Criadas": 60, Rating: 8.9 } },
+
+                { name: "Rafael Souza", positionShort: "ATA", position: "Atacante Central", ovr: 92, stats: { Gols: 32, Assist: 18, Rating: 8.7 } },
+                { name: "Thiago Rocha", positionShort: "PE", position: "Ponta Esquerda", ovr: 90, stats: { Gols: 15, Dribles: 120, Rating: 8.6 } },
+                { name: "Guilherme S.", positionShort: "PD", position: "Ponta Direita", ovr: 87, stats: { Gols: 10, Finalizacoes: 85, Rating: 8.4 } },
+            ];
+            
+            // 2. Função para agrupar os jogadores
+            function groupPlayersByPosition(players) {
+                const groups = {};
+                // Ordem desejada das posições (para renderização)
+                const positionOrder = ["GOL", "ZAG", "LAT", "VOL", "MEC", "MEI", "ATA", "PE", "PD"];
+
+                players.forEach(player => {
+                    const groupKey = player.positionShort;
+                    if (!groups[groupKey]) {
+                        // Inicializa o grupo com a chave (posição curta) e um array de jogadores
+                        groups[groupKey] = [];
+                    }
+                    groups[groupKey].push(player);
+                });
+
+                // Cria um array de grupos na ordem definida
+                const orderedGroups = positionOrder
+                    .filter(key => groups[key]) // Filtra apenas as posições que têm jogadores
+                    .map(key => ({
+                        position: key, // Chave do grupo
+                        players: groups[key] // Array de jogadores
+                    }));
+
+                return orderedGroups;
+            }
+
+            // 3. Função para criar o HTML do Card do Jogador
+            function createPlayerCard(player) {
+                const statsHtml = Object.entries(player.stats).map(([label, value]) => `
+                    <div class="stat">
+                        <div class="stat-value">${value}</div>
+                        <div class="stat-label">${label}</div>
+                    </div>
+                `).join('');
+
+                return `
+                    <div class="card player-card">
+                        <div class="player-header">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div class="player-info">
+                            <h3 class="player-name">${player.name}</h3>
+                            <p class="player-position">${player.position} - **${player.ovr} OVR**</p>
+                            <div class="player-stats">
+                                ${statsHtml}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 4. Função para renderizar o Elenco Agrupado
+            function renderGroupedPlayers() {
+                const groupedPlayers = groupPlayersByPosition(playersData);
+                let htmlContent = '';
+
+                // Mapeamento de Posição Curta para Nome de Seção
+                const positionNames = {
+                    "GOL": "Goleiros 🧤",
+                    "ZAG": "Zagueiros 🛡️",
+                    "LAT": "Laterais 🏃",
+                    "VOL": "Volantes (MDC) 💪",
+                    "MEC": "Meio-Campistas Centrais 🧠",
+                    "MEI": "Meias Atacantes 🎯",
+                    "ATA": "Atacantes Centrais ⚡",
+                    "PE": "Pontas Esquerda 🚀",
+                    "PD": "Pontas Direita 🚀",
+                };
+
+                groupedPlayers.forEach(group => {
+                    // Título do Grupo de Posição
+                    const groupTitle = positionNames[group.position] || group.position;
+                    htmlContent += `<h3 class="position-group-title">${groupTitle}</h3>`;
+
+                    // Container Grid para os jogadores do grupo
+                    htmlContent += `<div class="players-group-grid">`;
+                    
+                    // Cards dos Jogadores
+                    group.players.forEach(player => {
+                        htmlContent += createPlayerCard(player);
+                    });
+
+                    htmlContent += `</div>`; // Fecha players-group-grid
+                });
+
+                // Insere o HTML no container
+                playersContainer.innerHTML = htmlContent;
+            }
+
+            // Chama a função de renderização no início
+            renderGroupedPlayers();
+
+
+            // ************************************************
+            // RESTANTE DO CÓDIGO JS DE NAVEGAÇÃO E RECURSOS
+            // ************************************************
+
+            // Função para alternar a visibilidade das seções
+            function showSection(sectionId) {
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                setTimeout(() => {
+                    const targetSection = document.getElementById(sectionId);
+                    if (targetSection) {
+                        targetSection.classList.add('active');
+                    }
+                }, 50);
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.section === sectionId) {
+                        link.classList.add('active');
+                    }
+                });
+
+                if (window.innerWidth <= 768) {
+                    navMenu.classList.remove('active');
+                }
+            }
+
+            // Event listeners para os links de navegação
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const sectionId = this.dataset.section;
+                    showSection(sectionId);
+                    
+                    history.pushState(null, null, `#${sectionId}`);
+                    
+                    // Efeito de Ripple
+                    const ripple = document.createElement('span');
+                    const rect = this.getBoundingClientRect();
+                    const size = Math.max(rect.width, rect.height) * 1.5;
+
+                    ripple.classList.add('ripple');
+                    ripple.style.width = ripple.style.height = `${size}px`;
+                    ripple.style.left = `${e.clientX - rect.left - size / 2}px`;
+                    ripple.style.top = `${e.clientY - rect.top - size / 2}px`;
+                    
+                    this.appendChild(ripple);
+                    
+                    setTimeout(() => {
+                        ripple.remove();
+                    }, 600);
+                });
+            });
+
+            // Menu mobile toggle
+            mobileMenuBtn.addEventListener('click', function() {
+                navMenu.classList.toggle('active');
+            });
+
+            // Trata o hash da URL (quando a página é carregada com #secao)
+            const initialSection = window.location.hash.substring(1) || 'clube';
+            showSection(initialSection);
+        });
+    </script>
+</body>
+</html>
