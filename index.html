@@ -354,7 +354,7 @@
         .players-group-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+            gap: 5rem;
             margin-top: 1rem;
             margin-bottom: 2rem;
         }
@@ -405,7 +405,7 @@
 
         .player-header {
             background: linear-gradient(135deg, var(--primary), var(--accent));
-            height: 60%; /* Mais alto para a imagem e OVR */
+            height: 70%; /* Mais alto para a imagem e OVR */
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -432,19 +432,19 @@
         }
 
         .player-header img {
-            width: 140px; /* Maior imagem */
-            height: 140px;
-            border-radius: 50%; 
+            width: 180px; /* Maior imagem */
+            height: 180px;
+            border-radius: 80%; 
             object-fit: cover; 
             border: 5px solid white; 
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); 
             position: absolute; 
-            bottom: -70px; /* Metade para fora */
+            bottom: -80px; /* Metade para fora */
             transition: transform 0.3s ease;
         }
         
         .player-card-container:hover .player-header img {
-            transform: translateY(0) scale(1.05); /* Pequeno zoom no hover do container */
+            transform: translateY(0) scale(1.10); /* Pequeno zoom no hover do container */
         }
 
         .player-info {
@@ -655,7 +655,7 @@
 
         .player-marker.active-player {
             border-color: var(--accent);
-            box-shadow: 0 0 0 8px rgba(0, 176, 255, 0.5); /* Efeito de seleção */
+            box-shadow: 0 0 0 7px rgba(0, 176, 255, 0.5); /* Efeito de seleção */
             transform: scale(1.1);
         }
 
@@ -978,21 +978,19 @@
             // 1. Dados dos jogadores (SIMULAÇÃO) - AGORA COM imageUrl
             const playersData = [
                 // IDs 1 a 12 são importantes para a lógica das táticas
-                { id: 1, name: "Marcos Oliveira", positionShort: "GOL", position: "Goleiro", ovr: 90, stats: { "Clean Sheets": 12, "Defesas/Jogo": 4.5, Rating: 8.5 }, imageUrl: "https://via.placeholder.com/150/0000FF/FFFFFF?text=GOL" },
-                { id: 2, name: "João Pedro", positionShort: "GOL", position: "Goleiro", ovr: 85, stats: { "Clean Sheets": 5, "Defesas/Jogo": 3.1, Rating: 7.9 }, imageUrl: "https://via.placeholder.com/150/0000FF/FFFFFF?text=GOL2" },
-                
+                { id: 1, name: "Marcos Oliveira", positionShort: "GOL", position: "Goleiro", ovr: 90, stats: { "Clean Sheets": 12, "Defesas/Jogo": 4.5, Rating: 8.5 }, imageUrl: "leva.webp" },                                
                 { id: 3, name: "Carlos Silva", positionShort: "ZAG", position: "Zagueiro Central", ovr: 87, stats: { Desarmes: 150, Intercept: 80, Rating: 8.0 }, imageUrl: "https://via.placeholder.com/150/FF0000/FFFFFF?text=ZAG" },
                 { id: 4, name: "André Luiz", positionShort: "ZAG", position: "Zagueiro Central", ovr: 89, stats: { Desarmes: 135, Intercept: 95, Rating: 8.3 }, imageUrl: "https://via.placeholder.com/150/FF0000/FFFFFF?text=ZAG2" },
                 { id: 5, name: "Lucas Ferreira", positionShort: "LAT", position: "Lateral Esquerdo", ovr: 88, stats: { Assist: 10, Cruzamentos: 75, Rating: 8.2 }, imageUrl: "https://via.placeholder.com/150/00FF00/FFFFFF?text=LE" },
-                { id: 6, name: "Ramon Dias", positionShort: "LAT", position: "Lateral Direito", ovr: 86, stats: { Assist: 7, Desarmes: 90, Rating: 7.8 }, imageUrl: "https://via.placeholder.com/150/00FF00/FFFFFF?text=LD" },
+                { id: 6, name: "Ramon Dias", positionShort: "LAD", position: "Lateral Direito", ovr: 86, stats: { Assist: 7, Desarmes: 90, Rating: 7.8 }, imageUrl: "https://via.placeholder.com/150/00FF00/FFFFFF?text=LD" },
 
                 { id: 7, name: "Diego Costa", positionShort: "VOL", position: "Volante (MDC)", ovr: 89, stats: { Gols: 12, Assist: 28, "Passes/Jogo": 50 }, imageUrl: "https://via.placeholder.com/150/FFFF00/000000?text=VOL" },
                 { id: 8, name: "Felipe Melo", positionShort: "MEC", position: "Meio-Campo Central", ovr: 85, stats: { Passes: 400, "Precisão Passe": 92, Rating: 8.1 }, imageUrl: "https://via.placeholder.com/150/FFFF00/000000?text=MEC" },
                 { id: 9, name: "Pedro Mendes", positionShort: "MEI", position: "Meia Atacante", ovr: 91, stats: { Gols: 20, "Chances Criadas": 60, Rating: 8.9 }, imageUrl: "https://via.placeholder.com/150/FFFF00/000000?text=MEI" },
 
-                { id: 10, name: "Rafael Souza", positionShort: "ATA", position: "Atacante Central", ovr: 92, stats: { Gols: 32, Assist: 18, Rating: 8.7 }, imageUrl: "https://via.placeholder.com/150/FF6D00/FFFFFF?text=ATA" },
-                { id: 11, name: "Thiago Rocha", positionShort: "PE", position: "Ponta Esquerda", ovr: 90, stats: { Gols: 15, Dribles: 120, Rating: 8.6 }, imageUrl: "https://via.placeholder.com/150/FF6D00/FFFFFF?text=PE" },
-                { id: 12, name: "Guilherme S.", positionShort: "PD", position: "Ponta Direita", ovr: 87, stats: { Gols: 10, Finalizacoes: 85, Rating: 8.4 }, imageUrl: "https://via.placeholder.com/150/FF6D00/FFFFFF?text=PD" },
+                { id: 10, name: "Braga", positionShort: "ATA", position: "Atacante Central", ovr: 85, stats: { Gols: 32, Assist: 18, Rating: 8.7 }, imageUrl: "https://via.placeholder.com/150/FF6D00/FFFFFF?text=ATA" },
+                { id: 11, name: "Bellhome", positionShort: "PE", position: "Ponta Esquerda", ovr: 90, stats: { Gols: 15, Dribles: 120, Rating: 8.6 }, imageUrl: "https://via.placeholder.com/150/FF6D00/FFFFFF?text=PE" },
+                { id: 12, name: "Guilherme S.", positionShort: "PD", position: "Ponta Direita", ovr: 87, stats: { Gols: 10, Finalizacoes: 85, Rating: 8.4 }, imageUrl: "leva.webp" },
             ];
 
             // 2. Dados das Formações (Táticas)
@@ -1002,16 +1000,16 @@
                     name: "4-3-3 Ofensivo",
                     id: "433-ofensive",
                     players: [
-                        { id: 1, top: "90%", left: "50%", pos: "GOL", instructions: { "Função": "Goleiro Líbero", "Cruzamentos": "Fica" } },
-                        { id: 5, top: "70%", left: "10%", pos: "LAT", instructions: { "Ataque": "Avançar", "Marcação": "Marcação Individual" } },
-                        { id: 3, top: "75%", left: "40%", pos: "ZAG", instructions: { "Defesa": "Fica na Defesa", "Cobertura": "Lado" } },
+                        { id: 1, top: "90%", left: "45%", pos: "GOL", instructions: { "Função": "Goleiro Líbero", "Cruzamentos": "Fica" } },
+                        { id: 5, top: "70%", left: "05%", pos: "LAT", instructions: { "Ataque": "Avançar", "Marcação": "Marcação Individual" } },
+                        { id: 3, top: "75%", left: "30%", pos: "ZAG", instructions: { "Defesa": "Fica na Defesa", "Cobertura": "Lado" } },
                         { id: 4, top: "75%", left: "60%", pos: "ZAG", instructions: { "Defesa": "Fica na Defesa", "Cobertura": "Centro" } },
-                        { id: 6, top: "70%", left: "90%", pos: "LAT", instructions: { "Ataque": "Apoio Equilibrado", "Marcação": "Marcação Individual" } },
-                        { id: 7, top: "50%", left: "50%", pos: "VOL", instructions: { "Movimentação": "Cobrir Centro", "Apoio Ataque": "Fica na Defesa" } },
-                        { id: 8, top: "35%", left: "30%", pos: "MEC", instructions: { "Posição": "Chega na Área", "Liberdade": "Livre" } },
-                        { id: 9, top: "35%", left: "70%", pos: "MEI", instructions: { "Posição": "Chega na Área", "Criatividade": "Livre/Roaming" } },
-                        { id: 11, top: "15%", left: "15%", pos: "PE", instructions: { "Movimento": "Cair nos Flancos", "Ataque": "Entrar na Área" } },
-                        { id: 10, top: "10%", left: "50%", pos: "ATA", instructions: { "Movimento": "Ponta de Lança", "Apoio": "Ficar no Ataque" } },
+                        { id: 6, top: "70%", left: "84%", pos: "LAD", instructions: { "Ataque": "Apoio Equilibrado", "Marcação": "Marcação Individual" } },
+                        { id: 7, top: "50%", left: "65%", pos: "VOL", instructions: { "Movimentação": "Cobrir Centro", "Apoio Ataque": "Fica na Defesa" } },
+                        { id: 8, top: "50%", left: "22%", pos: "MEC", instructions: { "Posição": "Chega na Área", "Liberdade": "Livre" } },
+                        { id: 9, top: "35%", left: "45%", pos: "MEI", instructions: { "Posição": "Chega na Área", "Criatividade": "Livre/Roaming" } },
+                        { id: 11, top: "15%", left: "05%", pos: "PE", instructions: { "Movimento": "Cair nos Flancos", "Ataque": "Entrar na Área" } },
+                        { id: 10, top: "10%", left: "47%", pos: "ATA", instructions: { "Movimento": "Central", "Apoio": "Ficar no Ataque" } },
                         { id: 12, top: "15%", left: "85%", pos: "PD", instructions: { "Movimento": "Voltar para Defender", "Ataque": "Corta para o Meio" } },
                     ]
                 },
@@ -1039,34 +1037,41 @@
             // FUNÇÕES DE RENDERIZAÇÃO DO ELENCO (MANTIDAS COM CARD FLIP)
             // -----------------------------------------------------------
             const renderPlayers = () => {
-                const groupedPlayers = playersData.reduce((acc, player) => {
-                    const group = player.position.includes('Goleiro') ? 'Goleiros' :
-                                  player.position.includes('Zagueiro') || player.position.includes('Lateral') ? 'Defensores' :
-                                  player.position.includes('Meio-Campo') || player.position.includes('Volante') || player.position.includes('Meia') ? 'Meio-Campistas' :
-                                  'Atacantes';
-                    if (!acc[group]) {
-                        acc[group] = [];
-                    }
-                    acc[group].push(player);
-                    return acc;
-                }, {});
+    const groupedPlayers = playersData.reduce((acc, player) => {
+        const group = player.position.includes('Goleiro') ? 'Goleiros' :
+                      player.position.includes('Zagueiro') || player.position.includes('Lateral') ? 'Defensores' :
+                      player.position.includes('Meio-Campo') || player.position.includes('Volante') || player.position.includes('Meia') ? 'Meio-Campistas' :
+                      'Atacantes';
+        if (!acc[group]) {
+            acc[group] = [];
+        }
+        acc[group].push(player);
+        return acc;
+    }, {});
 
-                playersContainer.innerHTML = ''; 
+    playersContainer.innerHTML = ''; 
+    
+    // NOVIDADE: Define a ordem que você quer para os grupos
+    const order = ['Atacantes', 'Meio-Campistas', 'Defensores', 'Goleiros']; 
 
-                for (const group in groupedPlayers) {
-                    const title = `<h3 class="position-group-title">${group} (${groupedPlayers[group].length})</h3>`;
-                    playersContainer.insertAdjacentHTML('beforeend', title);
+    // NOVIDADE: Itera sobre o array de ordem (order) para garantir a sequência
+    for (const group of order) {
+        // Verifica se o grupo existe no objeto groupedPlayers
+        if (groupedPlayers[group]) { 
+            const title = `<h3 class="position-group-title">${group} (${groupedPlayers[group].length})</h3>`;
+            playersContainer.insertAdjacentHTML('beforeend', title);
 
-                    const grid = document.createElement('div');
-                    grid.className = 'players-group-grid';
-                    
-                    groupedPlayers[group].forEach(player => {
-                        grid.innerHTML += renderPlayerCard(player);
-                    });
+            const grid = document.createElement('div');
+            grid.className = 'players-group-grid';
+            
+            groupedPlayers[group].forEach(player => {
+                grid.innerHTML += renderPlayerCard(player);
+            });
 
-                    playersContainer.appendChild(grid);
-                }
-            };
+            playersContainer.appendChild(grid);
+        }
+    }
+};
             
             const renderPlayerCard = (player) => {
                 const statIcons = {
